@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Mahipal Singh — AI Engineer & Full-Stack Developer with 10+ years of experience building LLM applications, RAG pipelines, and agentic AI systems using LangGraph, CrewAI, OpenAI, and more." />
+  <title>Mahipal Singh — AI Engineer</title>
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23030712'/%3E%3Ctext x='50%25' y='52%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='800' font-size='14' fill='%2338bdf8'%3EMS%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- PAGE LOADER -->
+  <div id="page-loader">
+    <div class="loader-content">
+      <div class="loader-logo">MS<span class="dot">.</span></div>
+      <div class="loader-bar">
+        <div class="loader-bar-inner"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="scroll-progress"></div>
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo" onclick="closeMobile()">MS<span class="dot">.</span></a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#certifications">Certs</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="MahipalSingh_FullStack_AI_Resume.pdf" target="_blank" class="nav-cta nav-resume"
+            data-tooltip="Click to view resume">Resume</a></li>
+      </ul>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5" />
+          <path
+            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="#about" onclick="closeMobile()">About</a>
+      <a href="#skills" onclick="closeMobile()">Skills</a>
+      <a href="#projects" onclick="closeMobile()">Projects</a>
+      <a href="#experience" onclick="closeMobile()">Experience</a>
+      <a href="#certifications" onclick="closeMobile()">Certifications</a>
+      <a href="#contact" onclick="closeMobile()">Contact</a>
+      <a href="MahipalSingh_FullStack_AI_Resume.pdf" target="_blank" onclick="closeMobile()">📄 Resume</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        Available for AI projects
+      </div>
+      <h1 class="hero-name">
+        <span class="line">Mahipal</span>
+        <span class="line accent-line">Singh</span>
+      </h1>
+      <div class="hero-typing">
+        <span class="typing-text"></span><span class="typing-cursor">|</span>
+      </div>
+      <p class="hero-title">AI Engineer &nbsp;·&nbsp; Agentic AI Systems Builder</p>
+      <p class="hero-tagline">"Building intelligent systems powered by AI"</p>
+      <div class="hero-bottom-row">
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary">View Projects</a>
+          <a href="#contact" class="btn btn-ghost">Contact Me</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num">10+</span><span class="stat-label">Years Exp</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-num">4</span><span class="stat-label">Companies</span></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><span class="stat-num">4</span><span class="stat-label">Certifications</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="orbit-system">
+        <div class="orbit orbit-1">
+          <div class="orbit-dot od1" data-tooltip="OpenAI"><svg viewBox="0 0 24 24" fill="#ffffff">
+              <path
+                d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z" />
+            </svg></div>
+          <div class="orbit-dot od2" data-tooltip="Gemini"><svg viewBox="0 0 24 24">
+              <defs>
+                <linearGradient id="geminiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#4285F4" />
+                  <stop offset="25%" stop-color="#9B72CB" />
+                  <stop offset="50%" stop-color="#D96570" />
+                  <stop offset="75%" stop-color="#D96570" />
+                  <stop offset="100%" stop-color="#9B72CB" />
+                </linearGradient>
+              </defs>
+              <path fill="url(#geminiGrad)"
+                d="M12 0C12 6.627 6.627 12 0 12c6.627 0 12 5.373 12 12 0-6.627 5.373-12 12-12-6.627 0-12-5.373-12-12z" />
+            </svg></div>
+          <div class="orbit-dot od3" data-tooltip="Claude"><svg viewBox="0 0 24 24" fill="#D4A27F">
+              <path
+                d="M12 2L12.9 6.1L15.5 3.2L14.2 7.2L18.3 6.1L15.4 8.7L19.5 9.6L15.4 10.5L18.3 13.1L14.2 12L15.5 16L12.9 13.1L12 17.2L11.1 13.1L8.5 16L9.8 12L5.7 13.1L8.6 10.5L4.5 9.6L8.6 8.7L5.7 6.1L9.8 7.2L8.5 3.2L11.1 6.1L12 2z" />
+            </svg></div>
+        </div>
+        <div class="orbit orbit-2">
+          <div class="orbit-dot od4" data-tooltip="LangChain"><img src="langchain-logo.svg" alt="LangChain" /></div>
+          <div class="orbit-dot od5" data-tooltip="Ollama"><svg viewBox="0 0 24 24" fill="none" stroke="#ffffff"
+              stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="12" cy="13" rx="7" ry="6" />
+              <ellipse cx="12" cy="9" rx="5" ry="4" />
+              <circle cx="9.5" cy="8.5" r="0.5" fill="#ffffff" />
+              <circle cx="14.5" cy="8.5" r="0.5" fill="#ffffff" />
+              <path d="M10.5 11c.5.5 2.5.5 3 0" />
+              <path d="M8 6c-1-2 0-4 2-4M16 6c1-2 0-4-2-4" />
+            </svg></div>
+          <div class="orbit-dot od6" data-tooltip="Python"><svg viewBox="0 0 24 24">
+              <path fill="#3776AB"
+                d="M11.914 0C5.82 0 6.2 2.656 6.2 2.656l.007 2.752h5.814v.826H3.9S0 5.789 0 11.969c0 6.18 3.403 5.96 3.403 5.96h2.03v-2.867s-.109-3.42 3.35-3.42h5.766s3.24.052 3.24-3.148V3.202S18.28 0 11.914 0zM8.708 1.85c.578 0 1.046.47 1.046 1.052 0 .58-.468 1.051-1.046 1.051-.579 0-1.046-.47-1.046-1.051 0-.581.467-1.052 1.046-1.052z" />
+              <path fill="#FFC331"
+                d="M12.086 24c6.094 0 5.714-2.656 5.714-2.656l-.007-2.752h-5.814v-.826h8.121s3.9.445 3.9-5.735c0-6.18-3.403-5.96-3.403-5.96h-2.03v2.867s.109 3.42-3.35 3.42H9.451s-3.24-.052-3.24 3.148v5.292S5.72 24 12.086 24zm3.206-1.85c-.578 0-1.046-.47-1.046-1.052 0-.58.468-1.051 1.046-1.051.579 0 1.046.47 1.046 1.051 0 .581-.467 1.052-1.046 1.052z" />
+            </svg></div>
+        </div>
+        <div class="core">
+          <div class="core-inner">AI</div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div> -->
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="section-label">01 — About</div>
+      <div class="about-grid">
+        <div class="about-text">
+          <h2 class="section-heading">Full-Stack Engineer<br /><em>turned AI Architect</em></h2>
+          <p>With over <strong>10 years</strong> of software engineering experience, I've evolved from building scalable
+            full-stack applications to designing <strong>intelligent systems powered by LLMs and Agentic AI</strong>.
+          </p>
+          <p>My work sits at the intersection of robust software engineering and cutting-edge AI — I build
+            production-ready pipelines that leverage <strong>RAG, multi-agent orchestration, and real-time LLM
+              integrations</strong> to solve real-world problems.</p>
+          <p>I specialize in turning complex AI concepts into working systems: from retrieval-augmented generation to
+            autonomous agent workflows that actually ship.</p>
+          <div class="about-tags">
+            <span class="tag">🧠 LLM Integrations</span>
+            <span class="tag">🔁 Agentic Workflows</span>
+            <span class="tag">📚 RAG Pipelines</span>
+            <span class="tag">⚙️ System Design</span>
+          </div>
+        </div>
+        <div class="about-card-col">
+          <div class="glass-card about-info-card">
+            <div class="info-item">
+              <span class="info-icon">📍</span>
+              <div>
+                <div class="info-label">Location</div>
+                <div class="info-value">India (Dehradun)</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">📧</span>
+              <div>
+                <div class="info-label">Email</div>
+                <div class="info-value"><a href="mailto:msmahi14@gmail.com">msmahi14@gmail.com</a></div>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">💼</span>
+              <div>
+                <div class="info-label">LinkedIn</div>
+                <div class="info-value"><a href="https://www.linkedin.com/in/mahipalsingh08"
+                    target="_blank">mahipalsingh08</a></div>
+              </div>
+            </div>
+            <div class="info-item">
+              <span class="info-icon">🐙</span>
+              <div>
+                <div class="info-label">GitHub</div>
+                <div class="info-value"><a href="https://github.com/mahipalSingh08" target="_blank">mahipalSingh08</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="glass-card focus-card">
+            <div class="focus-title">Currently Building</div>
+            <ul>
+              <li>🔥 Production-ready AI applications</li>
+              <li>🤖 Multi-agent orchestration systems</li>
+              <li>🔗 AI-integrated full-stack architectures</li>
+              <li>📦 Scalable RAG pipelines</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-label">02 — Skills</div>
+      <h2 class="section-heading">Technical <em>Arsenal</em></h2>
+      <div class="skills-grid">
+        <div class="skill-category glass-card">
+          <div class="skill-cat-header"><span class="skill-icon">🧠</span><span>AI / GenAI</span></div>
+          <div class="skill-pills">
+            <span class="pill pill-ai">LLM Applications</span>
+            <span class="pill pill-ai">RAG Pipelines</span>
+            <span class="pill pill-ai">LangGraph</span>
+            <span class="pill pill-ai">CrewAI</span>
+            <span class="pill pill-ai">AutoGen</span>
+            <span class="pill pill-ai">Embeddings</span>
+            <span class="pill pill-ai">Multi-Agent Systems</span>
+            <span class="pill pill-ai">ReAct Agents</span>
+            <span class="pill pill-ai">Prompt Engineering</span>
+          </div>
+        </div>
+        <div class="skill-category glass-card">
+          <div class="skill-cat-header"><span class="skill-icon">⚙️</span><span>Backend</span></div>
+          <div class="skill-pills">
+            <span class="pill pill-backend">Python</span>
+            <span class="pill pill-backend">Async Python</span>
+            <span class="pill pill-backend">Node.js</span>
+            <span class="pill pill-backend">Express.js</span>
+            <span class="pill pill-backend">REST APIs</span>
+            <span class="pill pill-backend">MVC Architecture</span>
+          </div>
+        </div>
+        <div class="skill-category glass-card">
+          <div class="skill-cat-header"><span class="skill-icon">🎨</span><span>Frontend</span></div>
+          <div class="skill-pills">
+            <span class="pill pill-frontend">Angular 18+</span>
+            <span class="pill pill-frontend">TypeScript</span>
+            <span class="pill pill-frontend">JavaScript</span>
+            <span class="pill pill-frontend">HTML5</span>
+            <span class="pill pill-frontend">CSS3 / SCSS</span>
+            <span class="pill pill-frontend">Responsive UI</span>
+          </div>
+        </div>
+        <div class="skill-category glass-card">
+          <div class="skill-cat-header"><span class="skill-icon">🗄️</span><span>Databases & Tools</span></div>
+          <div class="skill-pills">
+            <span class="pill pill-db">MongoDB</span>
+            <span class="pill pill-db">MySQL</span>
+            <span class="pill pill-db">FAISS</span>
+            <span class="pill pill-db">Pinecone</span>
+            <span class="pill pill-db">Git & GitHub</span>
+            <span class="pill pill-db">Jupyter Notebook</span>
+            <span class="pill pill-db">Vector Databases</span>
+          </div>
+        </div>
+        <div class="skill-category glass-card">
+          <div class="skill-cat-header"><span class="skill-icon">🔌</span><span>AI Platforms & APIs</span></div>
+          <div class="skill-pills">
+            <span class="pill pill-platform">OpenAI API</span>
+            <span class="pill pill-platform">Gemini</span>
+            <span class="pill pill-platform">Claude API</span>
+            <span class="pill pill-platform">OpenAI Agent SDK</span>
+            <span class="pill pill-platform">MCP Protocol</span>
+            <span class="pill pill-platform">Ollama</span>
+          </div>
+        </div>
+        <div class="skill-category glass-card">
+          <div class="skill-cat-header"><span class="skill-icon">🛠️</span><span>IDE Tools</span></div>
+          <div class="skill-pills">
+            <span class="pill pill-tools">VS Code</span>
+            <span class="pill pill-tools">Cursor IDE</span>
+            <span class="pill pill-tools">Antigravity</span>
+            <span class="pill pill-tools">Claude Code</span>
+            <span class="pill pill-tools">GitHub Copilot</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container">
+      <div class="section-label">03 — Projects</div>
+      <h2 class="section-heading">What I've <em>Built</em></h2>
+      <div class="projects-grid">
+        <div class="project-card glass-card">
+          <div class="project-header">
+            <div class="project-num">01</div>
+            <a href="https://github.com/mahipalSingh08" target="_blank" class="icon-link">⬡ GitHub</a>
+          </div>
+          <h3 class="project-title">AI Chat CLI</h3>
+          <p class="project-desc">A command-line AI chat application powered by LLMs with real-time streaming responses.
+            Modular architecture designed for future extension into multi-turn and multi-model conversations.</p>
+          <div class="project-tech">
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">OpenAI API</span>
+            <span class="tech-badge">Streaming</span>
+            <span class="tech-badge">CLI</span>
+          </div>
+          <div class="project-footer">
+            <a href="https://github.com/mahipalSingh08" target="_blank" class="btn btn-sm">View on GitHub →</a>
+          </div>
+        </div>
+
+        <div class="project-card glass-card">
+          <div class="project-header">
+            <div class="project-num">02</div>
+            <a href="https://github.com/mahipalSingh08" target="_blank" class="icon-link">⬡ GitHub</a>
+          </div>
+          <h3 class="project-title">RAG System</h3>
+          <p class="project-desc">A full Retrieval-Augmented Generation pipeline — from document ingestion and chunk
+            indexing to embedding-based similarity search and context-aware LLM response generation.</p>
+          <div class="project-tech">
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">LangChain</span>
+            <span class="tech-badge">FAISS</span>
+            <span class="tech-badge">Embeddings</span>
+            <span class="tech-badge">OpenAI</span>
+          </div>
+          <div class="project-footer">
+            <a href="https://github.com/mahipalSingh08" target="_blank" class="btn btn-sm">View on GitHub →</a>
+          </div>
+        </div>
+
+        <div class="project-card glass-card project-inprogress">
+          <div class="project-header">
+            <div class="project-num">03</div>
+            <span class="in-progress-badge">🚧 In Progress</span>
+          </div>
+          <h3 class="project-title">AI Chat Application</h3>
+          <p class="project-desc">Full-stack AI application combining a rich Angular frontend with a Python backend.
+            Features agent-based workflows via LangGraph, RAG-powered document search, and real-time LLM communication.
+          </p>
+          <div class="project-tech">
+            <span class="tech-badge">Angular</span>
+            <span class="tech-badge">Python</span>
+            <span class="tech-badge">LangGraph</span>
+            <span class="tech-badge">RAG</span>
+            <span class="tech-badge">Agents</span>
+          </div>
+          <div class="project-footer">
+            <span class="btn btn-sm btn-disabled">Coming Soon</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-label">04 — Experience</div>
+      <h2 class="section-heading">Career <em>Journey</em></h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker active"></div>
+          <div class="timeline-content glass-card">
+            <div class="tl-header">
+              <div>
+                <div class="tl-role">Software Engineering Specialist</div>
+                <div class="tl-company">LTIMindtree</div>
+              </div>
+              <div class="tl-period">Jan 2026 – Present</div>
+            </div>
+            <p class="tl-desc">Leading AI integration initiatives and full-stack engineering at enterprise scale.
+              Focused on LLM-powered systems and intelligent application architectures.</p>
+            <div class="tl-tags">
+              <span class="tl-tag">AI Systems</span><span class="tl-tag">Angular</span><span class="tl-tag">LLMs</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content glass-card">
+            <div class="tl-header">
+              <div>
+                <div class="tl-role">Senior Software Engineer</div>
+                <div class="tl-company">LTIMindtree</div>
+              </div>
+              <div class="tl-period">Aug 2021 – Dec 2025</div>
+            </div>
+            <p class="tl-desc">Built and maintained complex enterprise applications with Angular. Led frontend
+              architecture decisions and mentored junior engineers across multiple projects.</p>
+            <div class="tl-tags">
+              <span class="tl-tag">Angular</span><span class="tl-tag">TypeScript</span><span
+                class="tl-tag">Node.js</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content glass-card">
+            <div class="tl-header">
+              <div>
+                <div class="tl-role">Full Stack Developer</div>
+                <div class="tl-company">CompuCom</div>
+              </div>
+              <div class="tl-period">Mar 2020 – Aug 2021</div>
+            </div>
+            <p class="tl-desc">Developed full-stack solutions for enterprise clients. Worked on backend APIs, database
+              design, and responsive frontend interfaces.</p>
+            <div class="tl-tags">
+              <span class="tl-tag">Full Stack</span><span class="tl-tag">MongoDB</span><span
+                class="tl-tag">Express</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content glass-card">
+            <div class="tl-header">
+              <div>
+                <div class="tl-role">Project Engineer</div>
+                <div class="tl-company">Persistent Systems</div>
+              </div>
+              <div class="tl-period">Dec 2018 – Feb 2020</div>
+            </div>
+            <p class="tl-desc">Contributed to product engineering teams, building scalable backend microservices and
+              frontend components for product-grade applications.</p>
+            <div class="tl-tags">
+              <span class="tl-tag">Microservices</span><span class="tl-tag">JavaScript</span><span
+                class="tl-tag">REST</span>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content glass-card">
+            <div class="tl-header">
+              <div>
+                <div class="tl-role">System Engineer</div>
+                <div class="tl-company">Tata Consultancy Services</div>
+              </div>
+              <div class="tl-period">Dec 2015 – Dec 2018</div>
+            </div>
+            <p class="tl-desc">Worked across e-retail and enterprise application domains. Delivered scalable backend
+              systems and responsive frontends across multiple client projects.</p>
+            <div class="tl-tags">
+              <span class="tl-tag">E-Retail</span><span class="tl-tag">Enterprise</span><span
+                class="tl-tag">Backend</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <div class="container">
+      <div class="section-label">05 — Certifications</div>
+      <h2 class="section-heading">Credentials & <em>Learning</em></h2>
+      <div class="certs-grid">
+        <div class="cert-card glass-card">
+          <div class="cert-icon">🤖</div>
+          <div class="cert-body">
+            <div class="cert-title">Agentic AI Systems</div>
+            <div class="cert-sub">LangGraph · CrewAI · AutoGen</div>
+          </div>
+          <div class="cert-badge">Verified</div>
+        </div>
+        <div class="cert-card glass-card">
+          <div class="cert-icon">🧬</div>
+          <div class="cert-body">
+            <div class="cert-title">Full Stack Generative & Agentic AI</div>
+            <div class="cert-sub">Python · GenAI · Production Systems</div>
+          </div>
+          <div class="cert-badge">Verified</div>
+        </div>
+        <div class="cert-card glass-card">
+          <div class="cert-icon">⚡</div>
+          <div class="cert-body">
+            <div class="cert-title">Claude API & AI Foundations</div>
+            <div class="cert-sub">Anthropic · Prompt Engineering</div>
+          </div>
+          <div class="cert-badge">Verified</div>
+        </div>
+        <div class="cert-card glass-card">
+          <div class="cert-icon">🔌</div>
+          <div class="cert-body">
+            <div class="cert-title">Model Context Protocol (MCP)</div>
+            <div class="cert-sub">Tool Use · Agent Integration</div>
+          </div>
+          <div class="cert-badge">Verified</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-label">06 — Contact</div>
+      <h2 class="section-heading">Let's <em>Connect</em></h2>
+      <p class="contact-sub">Open to AI engineering roles, freelance projects, and collaborations.</p>
+      <div class="contact-layout">
+        <div class="contact-links">
+          <a href="mailto:msmahi14@gmail.com" class="contact-link glass-card">
+            <span class="contact-link-icon">📧</span>
+            <div>
+              <div class="contact-link-label">Email</div>
+              <div class="contact-link-value">msmahi14@gmail.com</div>
+            </div>
+            <span class="contact-arrow">→</span>
+          </a>
+          <a href="https://www.linkedin.com/in/mahipalsingh08" target="_blank" class="contact-link glass-card">
+            <span class="contact-link-icon">💼</span>
+            <div>
+              <div class="contact-link-label">LinkedIn</div>
+              <div class="contact-link-value">mahipalsingh08</div>
+            </div>
+            <span class="contact-arrow">→</span>
+          </a>
+          <a href="https://github.com/mahipalSingh08" target="_blank" class="contact-link glass-card">
+            <span class="contact-link-icon">🐙</span>
+            <div>
+              <div class="contact-link-label">GitHub</div>
+              <div class="contact-link-value">mahipalSingh08</div>
+            </div>
+            <span class="contact-arrow">→</span>
+          </a>
+        </div>
+        <div class="contact-form glass-card">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" placeholder="Your name" />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea rows="4" placeholder="Tell me about your queries..."></textarea>
+          </div>
+          <button class="btn btn-primary form-submit" onclick="handleFormSubmit(this)">Send Message →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">MS<span class="dot">.</span></div>
+      <p class="footer-text">Mahipal Singh — AI Engineer &amp; Full-Stack Developer</p>
+      <p class="footer-copy">© 2026 Mahipal Singh. Crafted with precision.</p>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button id="back-to-top" aria-label="Back to top">↑</button>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

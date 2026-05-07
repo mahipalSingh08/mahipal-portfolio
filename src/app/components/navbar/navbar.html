@@ -1,0 +1,39 @@
+<nav id="navbar" [class.scrolled]="scrolled()">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo" (click)="scrollTo($event, 'hero')">MS<span class="dot">.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about" [class.active-link]="activeSection() === 'about'" (click)="scrollTo($event, 'about')">About</a></li>
+      <li><a href="#skills" [class.active-link]="activeSection() === 'skills'" (click)="scrollTo($event, 'skills')">Skills</a></li>
+      <li><a href="#projects" [class.active-link]="activeSection() === 'projects'" (click)="scrollTo($event, 'projects')">Projects</a></li>
+      <li><a href="#experience" [class.active-link]="activeSection() === 'experience'" (click)="scrollTo($event, 'experience')">Experience</a></li>
+      <li><a href="#certifications" [class.active-link]="activeSection() === 'certifications'" (click)="scrollTo($event, 'certifications')">Certs</a></li>
+      <li><a href="#contact" [class.active-link]="activeSection() === 'contact'" (click)="scrollTo($event, 'contact')">Contact</a></li>
+      <li>
+        <a href="assets/MahipalSingh_FullStack_AI_Resume.pdf" target="_blank" class="nav-cta nav-resume"
+          data-tooltip="Click to view resume">Resume</a>
+      </li>
+    </ul>
+    <button class="theme-toggle" (click)="toggleTheme()" aria-label="Toggle theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5" />
+        <path
+          d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      </svg>
+    </button>
+    <button class="hamburger" [class.active]="mobileOpen()" (click)="toggleMobile()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" [class.open]="mobileOpen()">
+    <a href="#about" (click)="scrollTo($event, 'about')">About</a>
+    <a href="#skills" (click)="scrollTo($event, 'skills')">Skills</a>
+    <a href="#projects" (click)="scrollTo($event, 'projects')">Projects</a>
+    <a href="#experience" (click)="scrollTo($event, 'experience')">Experience</a>
+    <a href="#certifications" (click)="scrollTo($event, 'certifications')">Certifications</a>
+    <a href="#contact" (click)="scrollTo($event, 'contact')">Contact</a>
+    <a href="assets/MahipalSingh_FullStack_AI_Resume.pdf" target="_blank" (click)="closeMobile()">📄 Resume</a>
+  </div>
+</nav>
