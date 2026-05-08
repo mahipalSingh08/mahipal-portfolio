@@ -1,8 +1,26 @@
 <div id="page-loader" [class.hidden]="hidden()">
-  <div class="loader-content">
-    <div class="loader-logo">MS<span class="dot">.</span></div>
-    <div class="loader-bar">
-      <div class="loader-bar-inner"></div>
+  <div class="ai-top-progress-bar">
+    <div class="ai-top-progress-fill"></div>
+  </div>
+  <div class="ai-loader-container">
+    <div class="ai-orb-wrapper">
+      <div class="ai-ring ai-ring-outer"></div>
+      <div class="ai-ring ai-ring-middle"></div>
+      <div class="ai-ring ai-ring-inner"></div>
+      <div class="ai-core">
+        <span class="ai-core-text">MS</span>
+      </div>
+    </div>
+    
+    <div class="ai-status">
+      <div class="ai-status-text">SYSTEM NEURAL LINK</div>
+      <div class="ai-status-bar">
+        <div class="ai-status-progress"></div>
+      </div>
+      <div class="ai-status-data">
+        <span>AWAITING CONNECTION...</span>
+        <span class="ai-blink">_</span>
+      </div>
     </div>
   </div>
 </div>

@@ -11,6 +11,6 @@ export class LoaderComponent {
   hidden = signal(false);
 
   constructor() {
-    setTimeout(() => this.hidden.set(true), 1400);
+    setTimeout(() => this.hidden.set(true), 2000);
   }
 }
