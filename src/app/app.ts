@@ -10,6 +10,9 @@ import { CertificationsComponent } from './components/certifications/certificati
 import { ContactComponent } from './components/contact/contact';
 import { FooterComponent } from './components/footer/footer';
 import { BackToTopComponent } from './components/back-to-top/back-to-top';
+import { SnackbarComponent } from './components/snackbar/snackbar';
+import { ApiService } from './services/api.service';
+import { SnackbarService } from './services/snackbar.service';
 
 @Component({
   selector: 'app-root',
@@ -26,12 +29,15 @@ import { BackToTopComponent } from './components/back-to-top/back-to-top';
     ContactComponent,
     FooterComponent,
     BackToTopComponent,
+    SnackbarComponent,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class AppComponent implements OnInit, OnDestroy {
   private ngZone = inject(NgZone);
+  private apiService = inject(ApiService);
+  private snackbarService = inject(SnackbarService);
   private glow!: HTMLDivElement;
 
   private mouseMoveHandler = (e: MouseEvent) => {
@@ -48,6 +54,25 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
+    /* ── Backend health check ── */
+    this.apiService.checkHealth().subscribe({
+      next: (res) => {
+        console.log(
+          '%c✅ Connection with Python backend is success',
+          'color: #22c55e; font-weight: bold; font-size: 13px;',
+          res
+        );
+      },
+      error: (err) => {
+        console.error('❌ Backend connection failed:', err.message);
+        this.snackbarService.show(
+          'Backend connection failed. Please ensure the Python server is running.',
+          'error',
+          6000
+        );
+      },
+    });
+
     /* Cursor glow */
     this.glow = document.createElement('div');
     this.glow.style.cssText = `
