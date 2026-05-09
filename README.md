@@ -1,59 +1,121 @@
-# Portfolio
+# 🚀 Mahipal Singh — Portfolio
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.10.
+A modern, AI-inspired personal portfolio website built with **Angular** and powered by a **Python/FastAPI** backend with **MongoDB** for contact form submissions.
 
-## Development server
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Angular](https://img.shields.io/badge/Angular-21-red?logo=angular)
+![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green?logo=mongodb)
 
-To start a local development server, run:
+---
+
+## ✨ Features
+
+- 🎨 **Futuristic AI-inspired UI** — animated loader, glassmorphism, dark theme
+- 📱 **Fully Responsive** — optimized for all screen sizes
+- 📬 **Contact Form** — submissions stored in MongoDB Atlas via REST API
+- 🔒 **Health-check aware** — contact form gracefully degrades if backend is offline
+- ⚡ **Smooth Animations** — micro-interactions and scroll effects throughout
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Angular 21, TypeScript, CSS |
+| Backend | Python, FastAPI |
+| Database | MongoDB Atlas |
+| Deployment | *(add your platform here, e.g. Vercel / Render)* |
+
+---
+
+## 📂 Project Structure
+
+```
+portfolio/              # Angular frontend
+│
+├── src/
+│   ├── app/            # Components (hero, about, skills, projects, contact)
+│   └── assets/         # Images and static files
+│
+├── angular.json
+└── package.json
+
+portfolio_backend/      # Python FastAPI backend (separate repo)
+├── app/
+│   ├── main.py         # FastAPI app & routes
+│   └── models.py       # Pydantic models
+└── requirements.txt
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js >= 20
+- Angular CLI (`npm install -g @angular/cli`)
+- Python >= 3.11
+- MongoDB Atlas account (or local MongoDB)
+
+### Frontend Setup
 
 ```bash
+# Clone the repository
+git clone https://github.com/mahipalSingh08/mahipal-portfolio.git
+cd mahipal-portfolio
+
+# Install dependencies
+npm install
+
+# Start development server
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Navigate to `http://localhost:4200/`
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Backend Setup
 
 ```bash
-ng generate component component-name
+# Navigate to the backend repo
+cd portfolio_backend
+
+# Create and activate virtual environment
+python -m venv .venv
+.venv\Scripts\activate     # Windows
+# source .venv/bin/activate  # macOS/Linux
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Create .env file
+cp .env.example .env
+# Add your MONGO_URI to .env
+
+# Run the server
+uvicorn app.main:app --reload
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Backend runs at `http://localhost:8000/`
 
-```bash
-ng generate --help
-```
+---
 
-## Building
+## 🌐 Live Demo
 
-To build the project run:
+> 🔗 *Coming soon — link will be added after deployment*
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 📬 Contact
 
-## Running unit tests
+**Mahipal Singh**  
+📧 *(your email here)*  
+🔗 [LinkedIn](https://linkedin.com/in/mahipalsingh) · [GitHub](https://github.com/mahipalSingh08)
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+---
 
-```bash
-ng test
-```
+## 📄 License
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This project is licensed under the [MIT License](LICENSE).
