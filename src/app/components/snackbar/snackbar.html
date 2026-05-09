@@ -1,0 +1,17 @@
+<div
+  class="snackbar"
+  [class.snackbar--visible]="snackbarService.state().visible"
+  [class.snackbar--success]="snackbarService.state().type === 'success'"
+  [class.snackbar--error]="snackbarService.state().type === 'error'"
+  [class.snackbar--info]="snackbarService.state().type === 'info'"
+  role="alert"
+  aria-live="polite"
+>
+  <span class="snackbar__icon">
+    @if (snackbarService.state().type === 'success') { ✅ }
+    @else if (snackbarService.state().type === 'error') { ⚠️ }
+    @else { ℹ️ }
+  </span>
+  <span class="snackbar__message">{{ snackbarService.state().message }}</span>
+  <button class="snackbar__close" (click)="snackbarService.dismiss()" aria-label="Dismiss notification">✕</button>
+</div>
