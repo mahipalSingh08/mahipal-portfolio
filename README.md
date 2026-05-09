@@ -104,7 +104,7 @@ Backend runs at `http://localhost:8000/`
 
 ## 🌐 Live Demo
 
-> 🔗 *Coming soon — link will be added after deployment*
+> 🔗 https://www.mahipal.tech/
 
 ---
 
