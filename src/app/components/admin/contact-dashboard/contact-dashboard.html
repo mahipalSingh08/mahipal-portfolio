@@ -43,7 +43,7 @@
         </td>
         <td>{{ contact?.name || 'N/A' }}</td>
         <td>{{ contact?.email || 'N/A' }}</td>
-        <td class="query-cell">{{ contact?.query || 'N/A' }}</td>
+        <td class="query-cell" (click)="openQueryModal(contact?.query || '')">{{ contact?.query || 'N/A' }}</td>
         <td>{{ contact?.created_at ? (contact.created_at | date:'M/d/yyyy HH:mm':'+0530') : 'N/A' }}</td>
         <td class="action-col">
           <button class="delete-btn" (click)="deleteSingle(contact._id)">Delete</button>
@@ -65,3 +65,21 @@
     Next
   </button>
 </div>
+
+<!-- Query Modal Popup -->
+@if (showQueryModal) {
+<div class="modal-overlay" (click)="closeQueryModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Query</h3>
+      <button class="modal-close-btn" (click)="closeQueryModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <p>{{ selectedQuery }}</p>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-close-action-btn" (click)="closeQueryModal()">Close</button>
+    </div>
+  </div>
+</div>
+}

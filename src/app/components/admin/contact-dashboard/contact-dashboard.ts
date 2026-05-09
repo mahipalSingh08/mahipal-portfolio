@@ -28,6 +28,9 @@ export class ContactDashboardComponent implements OnInit {
   
   limits = [5, 10, 25];
   isLoading = false;
+  
+  showQueryModal = false;
+  selectedQuery = '';
 
   ngOnInit() {
     this.loadContacts();
@@ -120,5 +123,15 @@ export class ContactDashboardComponent implements OnInit {
       this.currentPage = page;
       this.loadContacts();
     }
+  }
+
+  openQueryModal(query: string) {
+    this.selectedQuery = query;
+    this.showQueryModal = true;
+  }
+
+  closeQueryModal() {
+    this.showQueryModal = false;
+    this.selectedQuery = '';
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { AdminLoginComponent } from '../admin-login/admin-login';
@@ -12,9 +12,10 @@ import { AuthService } from '../../../services/auth.service';
   styleUrl: './admin-layout.css'
 })
 export class AdminLayoutComponent implements OnInit {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  
   isLoggedIn = false;
-
-  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.checkLoginStatus();
