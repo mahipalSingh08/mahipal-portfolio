@@ -11,6 +11,29 @@ export interface HealthCheckResponse {
   message: string;
 }
 
+export interface Contact {
+  _id: string;
+  name: string;
+  email: string;
+  query: string;
+  created_at: string;
+}
+
+export interface ContactResponse {
+  data: Contact[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    total_pages: number;
+  };
+}
+
+export interface DeleteResponse {
+  message: string;
+  deleted_count: number;
+}
+
 // ─── API Service ────────────────────────────────────────────────────────────
 
 @Injectable({
@@ -36,6 +59,18 @@ export class ApiService {
   submitContact(data: { name: string; email: string; query: string }): Observable<{ message: string }> {
     return this.http
       .post<{ message: string }>(`${this.baseUrl}/api/contact`, data)
+      .pipe(catchError(this.handleError));
+  }
+
+  getContacts(page: number = 1, limit: number = 10): Observable<ContactResponse> {
+    return this.http
+      .get<ContactResponse>(`${this.baseUrl}/api/contacts?page=${page}&limit=${limit}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  deleteContacts(ids: string[]): Observable<DeleteResponse> {
+    return this.http
+      .delete<DeleteResponse>(`${this.baseUrl}/api/contacts`, { body: { ids } })
       .pipe(catchError(this.handleError));
   }
 
