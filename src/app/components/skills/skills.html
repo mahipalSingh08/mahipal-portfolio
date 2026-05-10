@@ -2,6 +2,58 @@
   <div class="container">
     <div class="section-label" appReveal>02 — Skills</div>
     <h2 class="section-heading" appReveal>Technical <em>Arsenal</em></h2>
+    @if (!isMobile()) {
+      <div
+        class="logo-carousel"
+        appReveal
+        [class.is-dragging]="isDragging"
+        [style.--drag-offset.px]="dragOffset"
+        (pointerdown)="startLogoDrag($event)"
+        (pointermove)="moveLogoDrag($event)"
+        (pointerup)="endLogoDrag($event)"
+        (pointercancel)="endLogoDrag($event)"
+        (pointerleave)="endLogoDrag($event)"
+        aria-label="Technology logos"
+      >
+        <div class="logo-track">
+          @for (logo of techLogos; track logo.src + '-before') {
+            <div
+              class="logo-item"
+              [class.is-tooltip-active]="activeLogoName === logo.name"
+              [attr.data-tooltip]="logo.name"
+              (pointerdown)="showLogoTooltip(logo.name)"
+              aria-hidden="true"
+            >
+              <img [src]="logo.src" alt="" width="52" height="52" loading="lazy" decoding="async" draggable="false" />
+            </div>
+          }
+          @for (logo of techLogos; track logo.src) {
+            <div
+              class="logo-item"
+              [class.is-tooltip-active]="activeLogoName === logo.name"
+              [attr.data-tooltip]="logo.name"
+              tabindex="0"
+              (pointerdown)="showLogoTooltip(logo.name)"
+              (focus)="showLogoTooltip(logo.name)"
+              (blur)="hideLogoTooltip()"
+            >
+              <img [src]="logo.src" [alt]="logo.name" width="52" height="52" loading="lazy" decoding="async" draggable="false" />
+            </div>
+          }
+          @for (logo of techLogos; track logo.src + '-repeat') {
+            <div
+              class="logo-item"
+              [class.is-tooltip-active]="activeLogoName === logo.name"
+              [attr.data-tooltip]="logo.name"
+              (pointerdown)="showLogoTooltip(logo.name)"
+              aria-hidden="true"
+            >
+              <img [src]="logo.src" alt="" width="52" height="52" loading="lazy" decoding="async" draggable="false" />
+            </div>
+          }
+        </div>
+      </div>
+    }
     <div class="skills-grid">
       <div class="skill-category glass-card" appReveal [delay]="0">
         <div class="skill-cat-header"><span class="skill-icon">🧠</span><span>AI / GenAI</span></div>

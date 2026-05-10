@@ -30,37 +30,39 @@
         </div>
       </div>
     </div>
-    <div class="hero-visual">
-      <div class="orbit-system">
-        <div class="orbit orbit-1">
-          <div class="orbit-dot od1" data-tooltip="Python">
-            <img src="assets/python.png" alt="Python" />
+    @if (!isMobile()) {
+      <div class="hero-visual">
+        <div class="orbit-system">
+          <div class="orbit orbit-1">
+            <div class="orbit-dot od1" data-tooltip="Python">
+              <img src="assets/python.png" alt="Python" />
+            </div>
+            <div class="orbit-dot od2" data-tooltip="FastAPI">
+              <img src="assets/fastapi.png" alt="FastAPI" />
+            </div>
+            <div class="orbit-dot od3" data-tooltip="Qdrant">
+              <img src="assets/qdrant.png" alt="Qdrant" />
+            </div>
           </div>
-          <div class="orbit-dot od2" data-tooltip="FastAPI">
-            <img src="assets/fastapi.png" alt="FastAPI" />
+          <div class="orbit orbit-2">
+            <div class="orbit-dot od4" data-tooltip="OpenAI">
+              <img src="assets/openai.png" alt="OpenAI" />
+            </div>
+            <div class="orbit-dot od5" data-tooltip="Gemini">
+              <img src="assets/gemini.png" alt="Gemini" />
+            </div>
+            <div class="orbit-dot od6" data-tooltip="Deepseek">
+              <img src="assets/deepseek.png" alt="Deepseek" />
+            </div>
+            <div class="orbit-dot od7" data-tooltip="Claude">
+              <img src="assets/claude.png" alt="Claude" />
+            </div>
           </div>
-          <div class="orbit-dot od3" data-tooltip="Qdrant">
-            <img src="assets/qdrant.png" alt="Qdrant" />
+          <div class="core">
+            <div class="core-inner">AI</div>
           </div>
-        </div>
-        <div class="orbit orbit-2">
-          <div class="orbit-dot od4" data-tooltip="OpenAI">
-            <img src="assets/openai.png" alt="OpenAI" />
-          </div>
-          <div class="orbit-dot od5" data-tooltip="Gemini">
-            <img src="assets/gemini.png" alt="Gemini" />
-          </div>
-          <div class="orbit-dot od6" data-tooltip="Deepseek">
-            <img src="assets/deepseek.png" alt="Deepseek" />
-          </div>
-          <div class="orbit-dot od7" data-tooltip="Claude">
-            <img src="assets/claude.png" alt="Claude" />
-          </div>
-        </div>
-        <div class="core">
-          <div class="core-inner">AI</div>
         </div>
       </div>
-    </div>
+    }
   </div>
 </section>
