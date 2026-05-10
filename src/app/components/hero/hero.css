@@ -173,6 +173,7 @@
   border: 1px dashed var(--border);
   border-radius: 50%;
   animation: spin linear infinite;
+  pointer-events: none;
 }
 
 .orbit-1 {
@@ -197,14 +198,16 @@
   position: absolute;
   width: 8px; height: 8px;
   cursor: pointer;
+  pointer-events: all;
 }
 
 .orbit-1 .od1 { top: calc(50% - 100px); left: 50%; }
 .orbit-1 .od2 { top: calc(50% + 50px); left: calc(50% + 86px); }
 .orbit-1 .od3 { top: calc(50% + 50px); left: calc(50% - 86px); }
 .orbit-2 .od4 { top: calc(50% - 155px); left: 50%; }
-.orbit-2 .od5 { top: calc(50% + 77px); left: calc(50% + 134px); }
-.orbit-2 .od6 { top: calc(50% + 77px); left: calc(50% - 134px); }
+.orbit-2 .od5 { top: 50%; left: calc(50% + 155px); }
+.orbit-2 .od6 { top: calc(50% + 155px); left: 50%; }
+.orbit-2 .od7 { top: 50%; left: calc(50% - 155px); }
 
 .orbit-dot img,
 .orbit-dot svg {
