@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.mahipal.tech/sitemap.xml
+Sitemap: https://mahipal.tech/sitemap.xml
