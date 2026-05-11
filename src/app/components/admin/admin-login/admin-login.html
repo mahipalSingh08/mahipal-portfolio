@@ -1,5 +1,6 @@
 <div class="login-container">
   <div class="login-box">
+    <!-- <button routerLink="/" class="home-btn">Home</button> -->
     <h2>Admin Login</h2>
     <form (ngSubmit)="onSubmit()">
       <div class="form-group">
@@ -12,6 +13,9 @@
       </div>
       <div *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</div>
       <button type="submit" class="login-btn">Login</button>
+      <br>
+      <br>
+      <button type="button" class="exit-btn" routerLink="/">Exit to Home</button>
     </form>
   </div>
 </div>

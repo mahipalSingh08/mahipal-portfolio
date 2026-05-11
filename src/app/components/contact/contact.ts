@@ -1,4 +1,5 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
+import confetti from 'canvas-confetti';
 import {
   AbstractControl,
   FormBuilder,
@@ -42,7 +43,7 @@ export class ContactComponent implements OnInit {
       clearTimeout(this.submitResetTimer);
 
       if (this.submitStatus() === 'error' && this.contactForm.invalid) {
-        this.submitText.set(this.getValidationMessage());
+        this.submitText.set('⚠️ ' + this.getValidationMessage());
         return;
       }
 
@@ -67,8 +68,11 @@ export class ContactComponent implements OnInit {
       return;
     }
 
+    localStorage.setItem('email', this.contactForm.controls.email.value?.trim() ?? '');
+    localStorage.setItem('name', this.contactForm.controls.name.value?.trim() ?? '');
+
     this.submitStatus.set('loading');
-    this.submitText.set('Sending...');
+    this.submitText.set('⏳ Sending...');
 
     const formData = {
       name: this.contactForm.controls.name.value?.trim() ?? '',
@@ -79,7 +83,7 @@ export class ContactComponent implements OnInit {
     this.apiService.submitContact(formData).subscribe({
       next: () => {
         this.submitStatus.set('success');
-        this.submitText.set('Message Sent!');
+        this.submitText.set('✅ Message Sent!');
         this.submitResetTimer = setTimeout(() => {
           this.resetSubmitState();
           this.contactForm.reset();
@@ -87,7 +91,7 @@ export class ContactComponent implements OnInit {
       },
       error: () => {
         this.submitStatus.set('error');
-        this.submitText.set('Failed to send message');
+        this.submitText.set('❌ Failed to send message');
         this.submitResetTimer = setTimeout(() => this.resetSubmitState(), 3500);
       }
     });
@@ -124,41 +128,73 @@ export class ContactComponent implements OnInit {
     const query = this.contactForm.controls.query;
 
     if (name.hasError('required')) {
-      return 'Name is required';
+      return '⚠️ Name is required';
     }
 
     if (name.hasError('minlength')) {
-      return 'Name must be at least 3 characters';
+      return '⚠️ Name must be at least 3 characters';
     }
 
     if (name.hasError('maxlength')) {
-      return 'Name must be 100 characters or less';
+      return '⚠️ Name must be 100 characters or less';
     }
 
     if (email.hasError('required')) {
-      return 'Email is required';
+      return '⚠️ Email is required';
     }
 
     if (email.hasError('email')) {
-      return 'Email is not valid';
+      return '⚠️ Email is not valid';
     }
 
     if (email.hasError('maxlength')) {
-      return 'Email must be 100 characters or less';
+      return '⚠️ Email must be 100 characters or less';
     }
 
     if (query.hasError('required')) {
-      return 'Query is required';
+      return '⚠️ Query is required';
     }
 
     if (query.hasError('minlength')) {
-      return 'Query must be at least 10 characters';
+      return '⚠️ Query must be at least 10 characters';
     }
 
     if (query.hasError('maxlength')) {
-      return 'Query must be 1000 characters or less';
+      return '⚠️ Query must be 1000 characters or less';
     }
 
-    return 'Please check the form fields';
+    return '⚠️ Please check the form fields';
+  }
+
+  onReactionClick(event: Event, label: string): void {
+    const button = event.currentTarget as HTMLElement;
+
+    // Bounce animation via CSS class (optional refresh)
+    button.classList.add('bounce');
+    setTimeout(() => button.classList.remove('bounce'), 200);
+
+    // Small confetti burst from button position
+    const rect = button.getBoundingClientRect();
+    const x = (rect.left + rect.width / 2) / window.innerWidth;
+    const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+    confetti({
+      particleCount: 30,
+      spread: 40,
+      origin: { x, y },
+      startVelocity: 12,
+      colors: ['#ffd700', '#ff8c00', '#ff6b6b', '#4ecdc4'],
+      decay: 0.8,
+      ticks: 150
+    });
+
+    this.apiService.submitReaction({ reaction: label, email: localStorage.getItem('email') ?? '', name: localStorage.getItem('name') ?? '' }).subscribe({
+      next: () => {
+        console.log(`Reaction submitted successfully`);
+      },
+      error: () => {
+        console.error(`Failed to submit reaction`);
+      }
+    })
   }
 }

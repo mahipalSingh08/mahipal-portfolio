@@ -90,4 +90,11 @@ export class ApiService {
     console.error('[ApiService]', errorMessage, error);
     return throwError(() => new Error(errorMessage));
   }
+
+  public submitReaction(data: { reaction: string; email: string; name: string }): Observable<{ message: string }> {
+    console.log(data);
+    return this.http
+      .post<{ message: string }>(`${this.baseUrl}/api/reaction`, data)
+      .pipe(catchError(this.handleError));
+  }
 }
