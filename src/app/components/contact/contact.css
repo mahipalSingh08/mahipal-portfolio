@@ -32,6 +32,12 @@
 }
 
 .contact-link-icon { font-size: 1.5rem; flex-shrink: 0; }
+.contact-link-logo {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  object-fit: contain;
+}
 .contact-link-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
 .contact-link-value { font-size: 0.9rem; color: var(--text); margin-top: 0.15rem; }
 .contact-arrow { margin-left: auto; color: var(--text-dim); font-size: 1.1rem; transition: all var(--transition); }
@@ -79,6 +85,38 @@
 }
 
 .form-submit { align-self: flex-start; }
+
+.form-contact-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  padding-top: 0.5rem;
+}
+
+.form-contact-link {
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface2);
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.form-contact-link:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-hover);
+}
+
+.form-contact-link img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+}
 
 .btn-error {
   background: #ef4444 !important;

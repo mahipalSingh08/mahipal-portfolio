@@ -1,43 +1,43 @@
 <section id="contact">
   <div class="container">
-    <div class="section-label" appReveal>06 — Contact</div>
+    <div class="section-label" appReveal>06 &mdash; Contact</div>
     <h2 class="section-heading" appReveal>Let's <em>Connect</em></h2>
     <p class="contact-sub" appReveal>Open to AI engineering roles, freelance projects, and collaborations.</p>
     <div class="contact-layout" appReveal>
       @if (!isBackendReady()) {
       <div class="contact-links">
         <a href="mailto:msmahi14&#64;gmail.com" class="contact-link glass-card">
-          <span class="contact-link-icon">📧</span>
+          <img src="/assets/gmail.png" alt="Gmail logo" class="contact-link-logo" />
           <div>
             <div class="contact-link-label">Email</div>
             <div class="contact-link-value">msmahi14&#64;gmail.com</div>
           </div>
-          <span class="contact-arrow">→</span>
+          <span class="contact-arrow">&rarr;</span>
         </a>
         <a href="https://www.linkedin.com/in/mahipalsingh08" target="_blank" class="contact-link glass-card">
-          <span class="contact-link-icon">💼</span>
+          <img src="/assets/linkedin.png" alt="LinkedIn logo" class="contact-link-logo" />
           <div>
             <div class="contact-link-label">LinkedIn</div>
             <div class="contact-link-value">mahipalsingh08</div>
           </div>
-          <span class="contact-arrow">→</span>
+          <span class="contact-arrow">&rarr;</span>
         </a>
         <a href="https://github.com/mahipalSingh08" target="_blank" class="contact-link glass-card">
-          <span class="contact-link-icon">🐙</span>
+          <img src="/assets/GitHub.png" alt="GitHub logo" class="contact-link-logo" />
           <div>
             <div class="contact-link-label">GitHub</div>
             <div class="contact-link-value">mahipalSingh08</div>
           </div>
-          <span class="contact-arrow">→</span>
+          <span class="contact-arrow">&rarr;</span>
         </a>
-        
+
         <a href="tel:+919637628925" class="contact-link glass-card">
-          <span class="contact-link-icon">📱</span>
+          <span class="contact-link-icon">&#128241;</span>
           <div>
             <div class="contact-link-label">Phone</div>
             <div class="contact-link-value">+91-9637628925</div>
           </div>
-          <span class="contact-arrow">→</span>
+          <span class="contact-arrow">&rarr;</span>
         </a>
       </div>
       } @else {
@@ -56,12 +56,23 @@
             placeholder="Tell me about your queries..."></textarea>
         </div>
         <button type="submit" class="btn btn-primary form-submit"
-          [disabled]="submitStatus() === 'loading'"
+          [disabled]="submitStatus() === 'loading' || submitStatus() === 'success'"
           [class.btn-error]="submitStatus() === 'error'"
           [class.btn-success]="submitStatus() === 'success'">
           {{ submitText() }}
         </button>
       </form>
+      <div class="form-contact-links" aria-label="Contact me">
+        <a href="mailto:msmahi14&#64;gmail.com" class="form-contact-link" aria-label="Email me">
+          <img src="/assets/gmail.png" alt="" />
+        </a>
+        <a href="https://www.linkedin.com/in/mahipalsingh08" target="_blank" class="form-contact-link" aria-label="Connect on LinkedIn">
+          <img src="/assets/linkedin.png" alt="" />
+        </a>
+        <a href="https://github.com/mahipalSingh08" target="_blank" class="form-contact-link" aria-label="View GitHub profile">
+          <img src="/assets/GitHub.png" alt="" />
+        </a>
+      </div>
       }
     </div>
   </div>

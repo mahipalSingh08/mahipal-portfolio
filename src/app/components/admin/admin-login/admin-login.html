@@ -1,0 +1,17 @@
+<div class="login-container">
+  <div class="login-box">
+    <h2>Admin Login</h2>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="userId">User ID</label>
+        <input type="text" id="userId" name="userId" [(ngModel)]="userId" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" [(ngModel)]="password" required />
+      </div>
+      <div *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</div>
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+  </div>
+</div>

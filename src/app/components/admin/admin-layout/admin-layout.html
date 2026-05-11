@@ -1,0 +1,30 @@
+<div class="admin-container">
+  <ng-container *ngIf="!isLoggedIn; else adminPanel">
+    <app-admin-login (loginSuccess)="onLoginSuccess()"></app-admin-login>
+  </ng-container>
+
+  <ng-template #adminPanel>
+    <div class="admin-layout">
+      <nav class="admin-sidebar">
+        <div class="brand">
+          <h3>Admin Panel</h3>
+        </div>
+        <ul class="nav-links">
+          <li>
+            <a routerLink="contact-dashboard" routerLinkActive="active">Contact Dashboard</a>
+          </li>
+          <li>
+            <a routerLink="reply-user" routerLinkActive="active">Reply User</a>
+          </li>
+          <li>
+            <a routerLink="configuration" routerLinkActive="active">Configuration</a>
+          </li>
+        </ul>
+        <button class="logout-btn" (click)="logout()">Logout</button>
+      </nav>
+      <main class="admin-main">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+  </ng-template>
+</div>

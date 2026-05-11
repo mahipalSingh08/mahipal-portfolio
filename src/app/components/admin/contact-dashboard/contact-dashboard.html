@@ -1,0 +1,85 @@
+<div class="dashboard-header">
+  <h2>Contact Queries</h2>
+  <div class="dashboard-actions">
+    <div class="limit-selector">
+      <label for="limit">Items per page: </label>
+      <select id="limit" [ngModel]="limit" (change)="changeLimit($event)">
+        <option *ngFor="let l of limits" [value]="l">{{ l }}</option>
+      </select>
+    </div>
+    <button class="delete-many-btn" [disabled]="selectedIds.size === 0" (click)="deleteSelected()">
+      Delete Many ({{ selectedIds.size }})
+    </button>
+  </div>
+</div>
+
+<div class="table-container">
+  @if (isLoading) {
+  <div class="loading-overlay">Loading...</div>
+  } @else {
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th class="checkbox-col">
+          <input type="checkbox" [checked]="isAllSelected()" (change)="toggleAll($event)" />
+        </th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Query</th>
+        <th>Date</th>
+        <th class="action-col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (contacts.length === 0) {
+      <tr>
+        <td colspan="6" class="no-data">No contact queries found.</td>
+      </tr>
+      } @else {
+      @for (contact of contacts; track contact._id) {
+      <tr>
+        <td class="checkbox-col">
+          <input type="checkbox" [checked]="selectedIds.has(contact._id)" (change)="toggleSelection(contact._id)" />
+        </td>
+        <td>{{ contact?.name || 'N/A' }}</td>
+        <td>{{ contact?.email || 'N/A' }}</td>
+        <td class="query-cell" (click)="openQueryModal(contact?.query || '')">{{ contact?.query || 'N/A' }}</td>
+        <td>{{ contact?.created_at ? (contact.created_at | date:'M/d/yyyy HH:mm':'+0530') : 'N/A' }}</td>
+        <td class="action-col">
+          <button class="delete-btn" (click)="deleteSingle(contact._id)">Delete</button>
+        </td>
+      </tr>
+      }
+      }
+    </tbody>
+  </table>
+  }
+</div>
+
+<div class="pagination-controls" *ngIf="totalPages > 1">
+  <button class="page-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+    Previous
+  </button>
+  <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+  <button class="page-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
+    Next
+  </button>
+</div>
+
+<!-- Query Modal Popup -->
+@if (showQueryModal) {
+<div class="modal-overlay" (click)="closeQueryModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Query</h3>
+      <button class="modal-close-btn" (click)="closeQueryModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <p>{{ selectedQuery }}</p>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-close-action-btn" (click)="closeQueryModal()">Close</button>
+    </div>
+  </div>
+</div>
+}
