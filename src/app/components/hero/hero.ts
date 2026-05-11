@@ -27,12 +27,14 @@ interface Particle {
 })
 export class HeroComponent implements AfterViewInit, OnDestroy {
   private ngZone = inject(NgZone);
+  private mobileMediaQuery = window.matchMedia('(max-width: 767px)');
 
   @ViewChild('bgCanvas', { static: true })
   canvasRef!: ElementRef<HTMLCanvasElement>;
 
   typingText = signal('');
   heroTitleText = signal('');
+  isMobile = signal(this.mobileMediaQuery.matches);
 
   private ctx!: CanvasRenderingContext2D;
   private W = 0;
@@ -40,6 +42,9 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   private particles: Particle[] = [];
   private animationId = 0;
   private resizeHandler = () => this.onResize();
+  private mobileMediaQueryHandler = (event: MediaQueryListEvent) => {
+    this.isMobile.set(event.matches);
+  };
   private destroyed = false;
 
   /* Typing state */
@@ -59,6 +64,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   private heroTitleFull = 'AI Engineer \u00A0·\u00A0 Agentic AI Systems Builder';
 
   ngAfterViewInit() {
+    this.mobileMediaQuery.addEventListener('change', this.mobileMediaQueryHandler);
     this.initCanvas();
     this.ngZone.runOutsideAngular(() => {
       this.animateBg();
@@ -74,6 +80,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.destroyed = true;
     cancelAnimationFrame(this.animationId);
     window.removeEventListener('resize', this.resizeHandler);
+    this.mobileMediaQuery?.removeEventListener('change', this.mobileMediaQueryHandler);
     if (this.typingTimer) clearTimeout(this.typingTimer);
     if (this.heroTitleTimer) clearTimeout(this.heroTitleTimer);
   }
