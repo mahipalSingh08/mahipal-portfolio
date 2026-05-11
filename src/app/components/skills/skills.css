@@ -1,5 +1,155 @@
 :host { display: block; }
 
+.logo-carousel {
+  --drag-offset: 0px;
+  position: relative;
+  overflow: hidden;
+  margin: -1.25rem 0 2.5rem;
+  padding: 2.35rem 0 1.1rem;
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-y;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.logo-carousel::before,
+.logo-carousel::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  width: 5rem;
+  height: 100%;
+  pointer-events: none;
+}
+
+.logo-carousel::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg), transparent);
+}
+
+.logo-carousel::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--bg), transparent);
+}
+
+.logo-carousel.is-dragging {
+  cursor: grabbing;
+}
+
+.logo-track {
+  display: flex;
+  width: max-content;
+  gap: 1rem;
+  animation: logo-scroll 70s linear infinite;
+  transform: translateX(calc(var(--drag-offset) - 33.333333%));
+  will-change: transform;
+}
+
+.logo-carousel:hover .logo-track,
+.logo-carousel.is-dragging .logo-track {
+  animation-play-state: paused;
+}
+
+.logo-item {
+  display: grid;
+  place-items: center;
+  position: relative;
+  flex: 0 0 auto;
+  width: 5.25rem;
+  height: 5.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(15, 23, 42, 0.32);
+  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+}
+
+.logo-item::before,
+.logo-item::after {
+  position: absolute;
+  left: 50%;
+  z-index: 4;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 0.35rem);
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.logo-item::before {
+  content: attr(data-tooltip);
+  top: -2rem;
+  max-width: 9rem;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 0.65rem;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.94), rgba(30, 41, 59, 0.9));
+  box-shadow: 0 0.8rem 1.7rem rgba(0, 0, 0, 0.35), 0 0 1.2rem rgba(56, 189, 248, 0.12);
+  color: var(--text);
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.logo-item::after {
+  content: "";
+  top: -0.42rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 1px solid rgba(56, 189, 248, 0.35);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.35);
+  background: rgba(30, 41, 59, 0.92);
+  transform: translate(-50%, 0.35rem) rotate(45deg);
+}
+
+.logo-item:hover,
+.logo-item:focus-visible,
+.logo-item.is-tooltip-active {
+  border-color: var(--border-hover);
+  background: var(--surface2);
+  transform: translateY(-3px);
+  outline: none;
+}
+
+.logo-item:hover::before,
+.logo-item:hover::after,
+.logo-item:focus-visible::before,
+.logo-item:focus-visible::after,
+.logo-item.is-tooltip-active::before,
+.logo-item.is-tooltip-active::after {
+  opacity: 1;
+}
+
+.logo-item:hover::before,
+.logo-item:focus-visible::before,
+.logo-item.is-tooltip-active::before {
+  transform: translate(-50%, 0);
+}
+
+.logo-item:hover::after,
+.logo-item:focus-visible::after,
+.logo-item.is-tooltip-active::after {
+  transform: translate(-50%, 0) rotate(45deg);
+}
+
+.logo-item img {
+  display: block;
+  max-width: 3.2rem;
+  max-height: 3.2rem;
+  object-fit: contain;
+  filter: grayscale(1) saturate(0.1) opacity(0.62);
+  transition: filter var(--transition), transform var(--transition);
+  pointer-events: none;
+}
+
+.logo-item:hover img,
+.logo-item:focus-visible img,
+.logo-item.is-tooltip-active img {
+  filter: grayscale(0) saturate(1) opacity(1);
+  transform: scale(1.08);
+}
+
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -53,5 +203,19 @@
 .pill-tools:hover { background: rgba(168, 85, 247, 0.2); box-shadow: 0 0 12px rgba(168, 85, 247, 0.2); }
 
 @media (max-width: 768px) {
+  .logo-carousel {
+    display: none;
+  }
+
   .skills-grid { grid-template-columns: 1fr; }
+}
+
+@keyframes logo-scroll {
+  from {
+    transform: translateX(calc(var(--drag-offset) - 33.333333%));
+  }
+
+  to {
+    transform: translateX(calc(var(--drag-offset) - 66.666667%));
+  }
 }

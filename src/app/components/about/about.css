@@ -44,6 +44,12 @@
 
 .info-item:last-child { border-bottom: none; }
 .info-icon { font-size: 1.25rem; flex-shrink: 0; }
+.info-logo {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  object-fit: contain;
+}
 .info-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
 .info-value { font-size: 0.9rem; color: var(--text); margin-top: 0.15rem; }
 .info-value a { color: var(--accent); transition: opacity var(--transition); }
