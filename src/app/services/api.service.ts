@@ -110,7 +110,10 @@ export class ApiService {
       // Rate limiting — too many requests
       errorMessage = 'You’ve made too many requests in a short time. Please wait 5 minutes before trying again.';
       this.snackbar.show(errorMessage, 'info', 5000);
-    } else {
+    } else if (error.status === 400 && error?.error?.detail === "Query contains inappropriate language. Please remove offensive words.") {
+      errorMessage = error.error.detail;
+      this.snackbar.show(errorMessage, 'error', 5000);
+    }else {
       // Backend returned a non-2xx response
       console.log('[ApiService] Backend error response:', error);
       errorMessage = error.error?.message ?? error.message ?? errorMessage;
