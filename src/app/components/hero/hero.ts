@@ -19,6 +19,17 @@ interface Particle {
   color: string;
 }
 
+interface OrbitalParticle {
+  id: number;
+  x: number;
+  y: number;
+  z: number;
+  size: number;
+  opacity: number;
+  delay: number;
+  duration: number;
+}
+
 @Component({
   selector: 'app-hero',
   standalone: true,
@@ -32,9 +43,14 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   @ViewChild('bgCanvas', { static: true })
   canvasRef!: ElementRef<HTMLCanvasElement>;
 
+  @ViewChild('scene3d', { static: false })
+  scene3dRef!: ElementRef<HTMLDivElement>;
+
   typingText = signal('');
   heroTitleText = signal('');
   isMobile = signal(this.mobileMediaQuery.matches);
+
+  orbitalParticles: OrbitalParticle[] = [];
 
   private ctx!: CanvasRenderingContext2D;
   private W = 0;
@@ -46,6 +62,19 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.isMobile.set(event.matches);
   };
   private destroyed = false;
+
+  /* Mouse parallax for 3D orbit */
+  private mouseX = 0;
+  private mouseY = 0;
+  private targetRotateX = 0;
+  private targetRotateY = 0;
+  private currentRotateX = 0;
+  private currentRotateY = 0;
+  private mouseMoveHandler = (e: MouseEvent) => {
+    this.mouseX = e.clientX;
+    this.mouseY = e.clientY;
+  };
+  private parallaxRAF = 0;
 
   /* Typing state */
   private typingPhrases = [
@@ -66,8 +95,10 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.mobileMediaQuery.addEventListener('change', this.mobileMediaQueryHandler);
     this.initCanvas();
+    this.initOrbitalParticles();
     this.ngZone.runOutsideAngular(() => {
       this.animateBg();
+      this.startParallax();
       window.addEventListener('resize', this.resizeHandler);
     });
 
@@ -79,10 +110,67 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.destroyed = true;
     cancelAnimationFrame(this.animationId);
+    cancelAnimationFrame(this.parallaxRAF);
     window.removeEventListener('resize', this.resizeHandler);
+    window.removeEventListener('mousemove', this.mouseMoveHandler);
     this.mobileMediaQuery?.removeEventListener('change', this.mobileMediaQueryHandler);
     if (this.typingTimer) clearTimeout(this.typingTimer);
     if (this.heroTitleTimer) clearTimeout(this.heroTitleTimer);
+  }
+
+  /* ---- Orbital floating particles ---- */
+  private initOrbitalParticles() {
+    const particles: OrbitalParticle[] = [];
+    for (let i = 0; i < 30; i++) {
+      particles.push({
+        id: i,
+        x: Math.random() * 420,
+        y: Math.random() * 420,
+        z: (Math.random() - 0.5) * 200,
+        size: Math.random() * 4 + 1.5,
+        opacity: Math.random() * 0.4 + 0.1,
+        delay: Math.random() * 5,
+        duration: Math.random() * 4 + 3,
+      });
+    }
+    this.orbitalParticles = particles;
+  }
+
+  /* ---- Mouse parallax ---- */
+  private startParallax() {
+    if (this.destroyed) return;
+    const update = () => {
+      if (this.destroyed) {
+        cancelAnimationFrame(this.parallaxRAF);
+        return;
+      }
+
+      const el = this.scene3dRef?.nativeElement;
+      if (!el) {
+        this.parallaxRAF = requestAnimationFrame(update);
+        return;
+      }
+
+      const rect = el.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      /* Map mouse position to -15..15 degree rotation */
+      this.targetRotateY = ((this.mouseX - centerX) / rect.width) * 20;
+      this.targetRotateX = ((this.mouseY - centerY) / rect.height) * -20;
+
+      /* Smooth interpolation */
+      this.currentRotateX += (this.targetRotateX - this.currentRotateX) * 0.05;
+      this.currentRotateY += (this.targetRotateY - this.currentRotateY) * 0.05;
+
+      el.style.transform =
+        `rotateX(${this.currentRotateX}deg) rotateY(${this.currentRotateY}deg)`;
+
+      this.parallaxRAF = requestAnimationFrame(update);
+    };
+
+    window.addEventListener('mousemove', this.mouseMoveHandler);
+    this.parallaxRAF = requestAnimationFrame(update);
   }
 
   /* ---- Canvas particles ---- */
