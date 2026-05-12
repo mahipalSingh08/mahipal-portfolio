@@ -1,3 +1,84 @@
 .dashboard-content {
   color: #f8fafc;
 }
+
+.loading-state,
+.error-state {
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.loading-state {
+  background-color: #1e3a5f;
+  color: #93c5fd;
+}
+
+.error-state {
+  background-color: #7c2d12;
+  color: #fca5a5;
+}
+
+.error-message {
+  margin: 0;
+  font-weight: 500;
+}
+
+.reactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  background-color: #1e293b;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.reactions-table thead {
+  background-color: #0f172a;
+}
+
+.reactions-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #e2e8f0;
+  border-bottom: 2px solid #334155;
+}
+
+.reactions-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #334155;
+  color: #cbd5e1;
+}
+
+.reactions-table tbody tr:hover {
+  background-color: #334155;
+}
+
+.emoji-cell {
+  font-size: 1.5rem;
+  text-align: center;
+  width: 15%;
+}
+
+.count-cell {
+  text-align: center;
+  font-weight: 500;
+  width: 15%;
+}
+
+.email-cell {
+  width: 70%;
+}
+
+.email-item {
+  padding: 0.25rem 0;
+  font-size: 0.875rem;
+}
+
+.no-data {
+  color: #94a3b8;
+  font-style: italic;
+}

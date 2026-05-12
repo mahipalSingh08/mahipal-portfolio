@@ -74,6 +74,28 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
+  // ── Reaction Endpoints ────────────────────────────────────────────────
+
+  /**
+   * GET /api/reaction
+   * Fetches all reactions with statistics.
+   */
+  getReactions(): Observable<Array<{ reaction: string; count: number; email: string[]; totalCount: number }>> {
+    return this.http
+      .get<Array<{ reaction: string; count: number; email: string[]; totalCount: number }>>(`${this.baseUrl}/api/reaction`)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * POST /api/reaction
+   * Submits a user reaction (feedback).
+   */
+  submitReaction(data: { reaction: string; email: string; name: string }): Observable<{ message: string }> {
+    return this.http
+      .post<{ message: string }>(`${this.baseUrl}/api/reaction`, data)
+      .pipe(catchError(this.handleError));
+  }
+
   // ── Error Handler ────────────────────────────────────────────────────────
 
   private handleError(error: HttpErrorResponse): Observable<never> {
@@ -89,12 +111,5 @@ export class ApiService {
 
     console.error('[ApiService]', errorMessage, error);
     return throwError(() => new Error(errorMessage));
-  }
-
-  public submitReaction(data: { reaction: string; email: string; name: string }): Observable<{ message: string }> {
-    console.log(data);
-    return this.http
-      .post<{ message: string }>(`${this.baseUrl}/api/reaction`, data)
-      .pipe(catchError(this.handleError));
   }
 }
