@@ -50,10 +50,13 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   };
   private destroyed = false;
 
-  /** Mouse position for parallax (normalized -1..1) */
-  private mouseX = 0;
-  private mouseY = 0;
-  private mouseHandler = (e: MouseEvent) => this.onMouseMove(e);
+  /** Click-drag tilt state */
+  private isDragging = false;
+  private dragStartX = 0;
+  private dragStartY = 0;
+  private currentRotateX = 0;
+  private currentRotateY = 0;
+  private returnAnimId = 0;
 
   /* Typing state */
   private typingPhrases = [
@@ -74,10 +77,10 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.mobileMediaQuery.addEventListener('change', this.mobileMediaQueryHandler);
     this.initCanvas();
+    this.setupOrbitDrag();
     this.ngZone.runOutsideAngular(() => {
       this.animateBg();
       window.addEventListener('resize', this.resizeHandler);
-      window.addEventListener('mousemove', this.mouseHandler);
     });
 
     /* Start typing after loader finishes */
@@ -88,29 +91,94 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.destroyed = true;
     cancelAnimationFrame(this.animationId);
+    cancelAnimationFrame(this.returnAnimId);
     window.removeEventListener('resize', this.resizeHandler);
-    window.removeEventListener('mousemove', this.mouseHandler);
+    this.removeOrbitDrag();
     this.mobileMediaQuery?.removeEventListener('change', this.mobileMediaQueryHandler);
     if (this.typingTimer) clearTimeout(this.typingTimer);
     if (this.heroTitleTimer) clearTimeout(this.heroTitleTimer);
   }
 
-  /* ---- Mouse parallax ---- */
-  private onMouseMove(e: MouseEvent) {
-    this.mouseX = (e.clientX / window.innerWidth) * 2 - 1;   // -1 .. 1
-    this.mouseY = (e.clientY / window.innerHeight) * 2 - 1;  // -1 .. 1
+  /* ---- Click-drag tilt ---- */
 
-    const el = this.orbitSystemRef?.nativeElement;
+  private getOrbitEl(): HTMLDivElement | null {
+    return this.orbitSystemRef?.nativeElement ?? null;
+  }
+
+  private applyRotation(x: number, y: number) {
+    const el = this.getOrbitEl();
     if (el) {
-      const rx = this.mouseY * 6;   // -6..6 deg
-      const ry = this.mouseX * -8;  // -8..8 deg
-      el.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
-
-      /* subtle translate shift */
-      const tx = this.mouseX * 6;
-      const ty = this.mouseY * 4;
-      el.style.translate = `${tx}px ${ty}px`;
+      el.style.transform = `rotateX(${x}deg) rotateY(${y}deg)`;
     }
+  }
+
+  private setupOrbitDrag() {
+    const el = this.getOrbitEl();
+    if (!el) return;
+
+    /* ---- Click-drag ---- */
+    el.addEventListener('mousedown', (e: MouseEvent) => {
+      e.preventDefault();
+      this.isDragging = true;
+      this.dragStartX = e.clientX;
+      this.dragStartY = e.clientY;
+      el.classList.add('dragging');
+      cancelAnimationFrame(this.returnAnimId);
+      this.returnAnimId = 0;
+    });
+
+    window.addEventListener('mousemove', (e: MouseEvent) => {
+      if (!this.isDragging) return;
+      const dx = e.clientX - this.dragStartX;
+      const dy = e.clientY - this.dragStartY;
+      this.currentRotateY = Math.max(-20, Math.min(20, dx * 0.3));
+      this.currentRotateX = Math.max(-20, Math.min(20, -dy * 0.3));
+      this.applyRotation(this.currentRotateX, this.currentRotateY);
+    });
+
+    const endDrag = () => {
+      if (!this.isDragging) return;
+      this.isDragging = false;
+      el.classList.remove('dragging');
+      this.animateReturn();
+    };
+
+    window.addEventListener('mouseup', endDrag);
+
+    /* Store handlers for cleanup */
+    (el as any).__dragCleanup = () => {
+      el.removeEventListener('mousedown', (el as any).__dragCleanup);
+      window.removeEventListener('mouseup', endDrag);
+      window.removeEventListener('mousemove', (el as any).__dragCleanup);
+    };
+  }
+
+  private removeOrbitDrag() {
+    const el = this.getOrbitEl();
+    if (el && (el as any).__dragCleanup) {
+      (el as any).__dragCleanup();
+      delete (el as any).__dragCleanup;
+    }
+  }
+
+  private animateReturn() {
+    const step = () => {
+      const speed = 0.10;
+      this.currentRotateX += (0 - this.currentRotateX) * speed;
+      this.currentRotateY += (0 - this.currentRotateY) * speed;
+
+      this.applyRotation(this.currentRotateX, this.currentRotateY);
+
+      if (Math.abs(this.currentRotateX) > 0.05 || Math.abs(this.currentRotateY) > 0.05) {
+        this.returnAnimId = requestAnimationFrame(step);
+      } else {
+        this.currentRotateX = 0;
+        this.currentRotateY = 0;
+        this.applyRotation(0, 0);
+        this.returnAnimId = 0;
+      }
+    };
+    this.returnAnimId = requestAnimationFrame(step);
   }
 
   /* ---- Canvas particles ---- */

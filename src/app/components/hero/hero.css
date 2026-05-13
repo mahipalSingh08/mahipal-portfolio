@@ -187,7 +187,13 @@
   position: relative;
   width: 370px; height: 370px;
   transform-style: preserve-3d;
-  transition: transform 0.3s ease-out;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.orbit-system.dragging {
+  cursor: grabbing;
 }
 
 .orbit-system.hover-effect {
