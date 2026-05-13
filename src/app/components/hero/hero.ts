@@ -32,6 +32,9 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   @ViewChild('bgCanvas', { static: true })
   canvasRef!: ElementRef<HTMLCanvasElement>;
 
+  @ViewChild('orbitSystem', { static: false })
+  orbitSystemRef!: ElementRef<HTMLDivElement>;
+
   typingText = signal('');
   heroTitleText = signal('');
   isMobile = signal(this.mobileMediaQuery.matches);
@@ -46,6 +49,11 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.isMobile.set(event.matches);
   };
   private destroyed = false;
+
+  /** Mouse position for parallax (normalized -1..1) */
+  private mouseX = 0;
+  private mouseY = 0;
+  private mouseHandler = (e: MouseEvent) => this.onMouseMove(e);
 
   /* Typing state */
   private typingPhrases = [
@@ -69,6 +77,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.ngZone.runOutsideAngular(() => {
       this.animateBg();
       window.addEventListener('resize', this.resizeHandler);
+      window.addEventListener('mousemove', this.mouseHandler);
     });
 
     /* Start typing after loader finishes */
@@ -80,9 +89,28 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.destroyed = true;
     cancelAnimationFrame(this.animationId);
     window.removeEventListener('resize', this.resizeHandler);
+    window.removeEventListener('mousemove', this.mouseHandler);
     this.mobileMediaQuery?.removeEventListener('change', this.mobileMediaQueryHandler);
     if (this.typingTimer) clearTimeout(this.typingTimer);
     if (this.heroTitleTimer) clearTimeout(this.heroTitleTimer);
+  }
+
+  /* ---- Mouse parallax ---- */
+  private onMouseMove(e: MouseEvent) {
+    this.mouseX = (e.clientX / window.innerWidth) * 2 - 1;   // -1 .. 1
+    this.mouseY = (e.clientY / window.innerHeight) * 2 - 1;  // -1 .. 1
+
+    const el = this.orbitSystemRef?.nativeElement;
+    if (el) {
+      const rx = this.mouseY * 6;   // -6..6 deg
+      const ry = this.mouseX * -8;  // -8..8 deg
+      el.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+
+      /* subtle translate shift */
+      const tx = this.mouseX * 6;
+      const ty = this.mouseY * 4;
+      el.style.translate = `${tx}px ${ty}px`;
+    }
   }
 
   /* ---- Canvas particles ---- */
@@ -92,20 +120,21 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     this.W = canvas.width = window.innerWidth;
     this.H = canvas.height = window.innerHeight;
 
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < 100; i++) {
       this.particles.push(this.createParticle());
     }
   }
 
   private createParticle(): Particle {
+    const colors = ['#38bdf8', '#818cf8', '#34d399', '#f472b6', '#a78bfa'];
     return {
       x: Math.random() * this.W,
       y: Math.random() * this.H,
-      r: Math.random() * 1.5 + 0.3,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 2 + 0.3,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
       alpha: Math.random() * 0.5 + 0.1,
-      color: Math.random() > 0.7 ? '#818cf8' : '#38bdf8',
+      color: colors[Math.floor(Math.random() * colors.length)],
     };
   }
 
@@ -133,13 +162,20 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
         const dx = this.particles[i].x - this.particles[j].x;
         const dy = this.particles[i].y - this.particles[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120) {
+        if (dist < 130) {
           this.ctx.beginPath();
           this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
           this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
-          this.ctx.strokeStyle = '#38bdf8';
-          this.ctx.globalAlpha = (1 - dist / 120) * 0.12;
-          this.ctx.lineWidth = 0.5;
+          /* gradient stroke based on particle colors */
+          const grad = this.ctx.createLinearGradient(
+            this.particles[i].x, this.particles[i].y,
+            this.particles[j].x, this.particles[j].y
+          );
+          grad.addColorStop(0, this.particles[i].color);
+          grad.addColorStop(1, this.particles[j].color);
+          this.ctx.strokeStyle = grad;
+          this.ctx.globalAlpha = (1 - dist / 130) * 0.15;
+          this.ctx.lineWidth = 0.6;
           this.ctx.stroke();
           this.ctx.globalAlpha = 1;
         }

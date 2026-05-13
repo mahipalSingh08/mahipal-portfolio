@@ -1,0 +1,37 @@
+<div class="dashboard-content">
+  <h2>Reactions<span class="total-count">({{ reactions.length ? reactions[0].totalCount : 0 }} total)</span></h2>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <p>Loading reactions...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-state">
+    <p class="error-message">❌ {{ errorMessage }}</p>
+  </div>
+  
+  <table class="reactions-table" *ngIf="reactions.length > 0 && !isLoading">
+    <thead>
+      <tr>
+        <th>Emoji</th>
+        <th>Count</th>
+        <th>Emails</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let reaction of reactions">
+        <td class="emoji-cell">{{ getReactionEmoji(reaction.reaction) }}</td>
+        <td class="count-cell">{{ reaction.count }}</td>
+        <td class="email-cell">
+          <div *ngIf="reaction.email.length > 0; else noEmails">
+            <div *ngFor="let email of reaction.email" class="email-item">{{ email }}</div>
+          </div>
+          <ng-template #noEmails>
+            <span class="no-data">-</span>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="reactions.length === 0 && !isLoading && !errorMessage" class="no-data">No reactions data available.</p>
+</div>
