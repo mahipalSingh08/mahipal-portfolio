@@ -108,7 +108,7 @@ export class ApiService {
       errorMessage = `Cannot reach the backend server. Make sure it is running at ${environment.apiBaseUrl}`;
     } else if (error.status === 429) {
       // Rate limiting — too many requests
-      errorMessage = 'You’ve made too many requests in a short time. Please wait 5 minutes before trying again.';
+      errorMessage = 'You’ve made too many requests in a short time. Please wait sometime.';
       this.snackbar.show(errorMessage, 'info', 5000);
     } else if (error.status === 400 && error?.error?.detail === "Query contains inappropriate language. Please remove offensive words.") {
       errorMessage = error.error.detail;
