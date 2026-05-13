@@ -44,7 +44,8 @@
       <form class="contact-form glass-card" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="contact-name">Name</label>
-          <input id="contact-name" type="text" formControlName="name" placeholder="Your name" minlength="3" maxlength="100" />
+          <input id="contact-name" type="text" formControlName="name" placeholder="Your name" minlength="3"
+            maxlength="100" />
         </div>
         <div class="form-group">
           <label for="contact-email">Email</label>
@@ -57,8 +58,7 @@
         </div>
         <button type="submit" class="btn btn-primary form-submit"
           [disabled]="submitStatus() === 'loading' || submitStatus() === 'success'"
-          [class.btn-error]="submitStatus() === 'error'"
-          [class.btn-success]="submitStatus() === 'success'">
+          [class.btn-error]="submitStatus() === 'error'" [class.btn-success]="submitStatus() === 'success'">
           {{ submitText() }}
         </button>
       </form>
@@ -66,14 +66,25 @@
         <a href="mailto:msmahi14&#64;gmail.com" class="form-contact-link" aria-label="Email me">
           <img src="/assets/gmail.png" alt="" />
         </a>
-        <a href="https://www.linkedin.com/in/mahipalsingh08" target="_blank" class="form-contact-link" aria-label="Connect on LinkedIn">
+        <a href="https://www.linkedin.com/in/mahipalsingh08" target="_blank" class="form-contact-link"
+          aria-label="Connect on LinkedIn">
           <img src="/assets/linkedin.png" alt="" />
         </a>
-        <a href="https://github.com/mahipalSingh08" target="_blank" class="form-contact-link" aria-label="View GitHub profile">
+        <a href="https://github.com/mahipalSingh08" target="_blank" class="form-contact-link"
+          aria-label="View GitHub profile">
           <img src="/assets/GitHub.png" alt="" />
         </a>
       </div>
       }
+      <h3 style="text-align: center; margin-top: 10px">Like my work? Give a reaction...
+      </h3>
+      <div class="reaction-bar">
+        <button class="reaction-btn" data-label="Like" (click)="onReactionClick($event, 'Like')">👍</button>
+        <button class="reaction-btn" data-label="Cheer" (click)="onReactionClick($event, 'Cheer')">👏🏻</button>
+        <button class="reaction-btn" data-label="Celebrate" (click)="onReactionClick($event, 'Celebrate')">🎉</button>
+        <button class="reaction-btn" data-label="Appreciate" (click)="onReactionClick($event, 'Appreciate')">✨</button>
+        <button class="reaction-btn" data-label="Smile" (click)="onReactionClick($event, 'Smile')">🙂</button>
+      </div>
     </div>
   </div>
 </section>

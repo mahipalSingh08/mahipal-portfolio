@@ -32,6 +32,7 @@ export class SkillsComponent implements OnDestroy {
     { name: 'n8n', src: 'assets/n8n.png' },
     { name: 'VS Code', src: 'assets/vscode.png' },
     { name: 'OpenAI', src: 'assets/openai.png' },
+    { name: 'Typescript', src: 'assets/typescript.png' },
     { name: 'Sass', src: 'assets/Sass.png' },
     { name: 'CrewAI', src: 'assets/crewai.png' },
     { name: 'MySQL', src: 'assets/MySQL.png' },

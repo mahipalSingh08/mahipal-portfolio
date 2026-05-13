@@ -1,4 +1,6 @@
-:host { display: block; }
+:host {
+  display: block;
+}
 
 .contact-sub {
   color: var(--text-muted);
@@ -16,7 +18,11 @@
   align-items: start;
 }
 
-.contact-links { display: flex; flex-direction: column; gap: 1rem; }
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
 .contact-link {
   display: flex;
@@ -31,17 +37,42 @@
   border-color: var(--border-hover);
 }
 
-.contact-link-icon { font-size: 1.5rem; flex-shrink: 0; }
+.contact-link-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
 .contact-link-logo {
   width: 1.75rem;
   height: 1.75rem;
   flex-shrink: 0;
   object-fit: contain;
 }
-.contact-link-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
-.contact-link-value { font-size: 0.9rem; color: var(--text); margin-top: 0.15rem; }
-.contact-arrow { margin-left: auto; color: var(--text-dim); font-size: 1.1rem; transition: all var(--transition); }
-.contact-link:hover .contact-arrow { color: var(--accent); transform: translateX(4px); }
+
+.contact-link-label {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.contact-link-value {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-top: 0.15rem;
+}
+
+.contact-arrow {
+  margin-left: auto;
+  color: var(--text-dim);
+  font-size: 1.1rem;
+  transition: all var(--transition);
+}
+
+.contact-link:hover .contact-arrow {
+  color: var(--accent);
+  transform: translateX(4px);
+}
 
 .contact-form {
   padding: 2rem;
@@ -50,7 +81,11 @@
   gap: 1.25rem;
 }
 
-.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
 .form-group label {
   font-size: 0.8rem;
@@ -84,7 +119,9 @@
   color: var(--text-dim);
 }
 
-.form-submit { align-self: flex-start; }
+.form-submit {
+  align-self: flex-start;
+}
 
 .form-contact-links {
   display: flex;
@@ -129,5 +166,134 @@
 }
 
 @media (max-width: 768px) {
-  .contact-layout { grid-template-columns: 1fr; }
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Reaction bar container ── */
+.reaction-bar {
+  max-width: fit-content;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  font-size: 1.5rem;
+  /* text-2xl */
+  background-color: #e8e4df;
+  border-radius: 9999px;
+  /* rounded-full */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, .1),
+    0 8px 10px -6px rgba(0, 0, 0, .1);
+  /* shadow-xl */
+  position: relative;
+  z-index: 10;
+  transition: transform 0.3s ease;
+}
+
+.reaction-bar:hover {
+  transform: scaleX(1.05);
+  /* hover:scale-x-105 */
+}
+
+/* ── Individual reaction button ── */
+.reaction-btn {
+  position: relative;
+  cursor: pointer;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 12px 18px;
+  font-size: 2rem;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+/* Invisible hover bridge — extends hit area downward so the button
+       doesn't escape the cursor/finger when it lifts, preventing shake */
+.reaction-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -24px;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  background: transparent;
+}
+
+.reaction-btn:hover {
+  transform: translateY(-20px) scale(1.25);
+}
+
+/* ── Tooltip via ::before pseudo-element ── */
+.reaction-btn::before {
+  content: attr(data-label);
+  display: none;
+  /* hidden by default */
+  justify-content: space-around;
+  align-items: center;
+  position: absolute;
+  top: -28px;
+  /* before:-top-7 */
+  left: 50%;
+  transform: translateX(-50%);
+  height: 16px;
+  /* before:h-4 */
+  padding: 0 4px;
+  /* before:px-1 */
+  font-size: 0.6rem;
+  /* before:text-[.6rem] */
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* before:bg-black before:bg-opacity-50 */
+  border-radius: 8px;
+  /* before:rounded-lg */
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.reaction-btn:hover::before {
+  display: flex;
+  /* hover:before:flex */
+}
+
+/* ── Dark mode ── */
+@media (prefers-color-scheme: dark) {
+  .reaction-bar {
+    background-color: #191818;
+  }
+
+  .reaction-btn {
+    background-color: #191818;
+  }
+
+  .reaction-btn::before {
+    background-color: rgba(255, 255, 255, 0.85);
+    color: #000000;
+  }
+}
+
+/* ── Bounce on click ── */
+.reaction-btn:active {
+  animation: bounceClick 0.2s ease;
+}
+
+@keyframes bounceClick {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.85);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.reaction-btn.bounce {
+  animation: bounceClick 0.2s ease;
 }

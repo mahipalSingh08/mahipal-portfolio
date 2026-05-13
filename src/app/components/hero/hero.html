@@ -5,7 +5,7 @@
     <div class="hero-text-side">
       <div class="hero-badge">
         <span class="pulse-dot"></span>
-        Available for AI projects
+        ✨ Open to AI collaborations
       </div>
       <h1 class="hero-name">
         <span class="line">Mahipal</span>
@@ -31,8 +31,22 @@
       </div>
     </div>
     @if (!isMobile()) {
-      <div class="hero-visual">
-        <div class="orbit-system">
+      <div class="hero-visual" #orbitContainer>
+        <div class="orbit-system" #orbitSystem>
+          <!-- Radial glow behind orbits -->
+          <div class="orbit-glow"></div>
+
+          <!-- Orbit 3 – innermost, fastest -->
+          <!-- <div class="orbit orbit-3">
+            <div class="orbit-dot od8" data-tooltip="Ollama">
+              <img src="assets/ollama.png" alt="Ollama" style="width:80%;height:80%" />
+            </div>
+            <div class="orbit-dot od9" data-tooltip="MCP">
+              <img src="assets/mcp.png" alt="MCP" style="width:80%;height:80%" />
+            </div>
+          </div> -->
+
+          <!-- Orbit 1 – middle -->
           <div class="orbit orbit-1">
             <div class="orbit-dot od1" data-tooltip="Python">
               <img src="assets/python.png" alt="Python" />
@@ -44,6 +58,8 @@
               <img src="assets/qdrant.png" alt="Qdrant" />
             </div>
           </div>
+
+          <!-- Orbit 2 – outermost, slowest -->
           <div class="orbit orbit-2">
             <div class="orbit-dot od4" data-tooltip="OpenAI">
               <img src="assets/openai.png" alt="OpenAI" />
@@ -58,11 +74,27 @@
               <img src="assets/claude.png" alt="Claude" />
             </div>
           </div>
+
+          <!-- Core AI element -->
           <div class="core">
-            <div class="core-inner">AI</div>
+            <div class="core-ring"></div>
+            <div class="core-ring ring-2"></div>
+            <div class="core-inner" #coreText>AI</div>
+            <div class="core-glow-ripple"></div>
           </div>
         </div>
       </div>
     }
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator">
+    <span class="scroll-text">Scroll</span>
+    <div class="scroll-arrow">
+      <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
+        <rect x="1" y="1" width="14" height="22" rx="7" stroke="currentColor" stroke-width="2"/>
+        <circle cx="8" cy="8" r="2" fill="currentColor" class="scroll-dot"/>
+      </svg>
+    </div>
   </div>
 </section>

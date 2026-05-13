@@ -1,16 +1,54 @@
 <section id="about">
   <div class="container">
+    <!-- Decorative background elements -->
+    <div class="about-orb about-orb--1"></div>
+    <div class="about-orb about-orb--2"></div>
+    <div class="about-dots"></div>
+
     <div class="section-label" appReveal>01 &mdash; About</div>
+
     <div class="about-grid">
+      <!-- Left column -->
       <div class="about-text" appReveal>
-        <h2 class="section-heading">Full-Stack Engineer<br /><em>turned AI Architect</em></h2>
-        <p>With over <strong>10 years</strong> of software engineering experience, I've evolved from building scalable
-          full-stack applications to designing <strong>intelligent systems powered by LLMs and Agentic AI</strong>.</p>
-        <p>My work sits at the intersection of robust software engineering and cutting-edge AI &mdash; I build
-          production-ready pipelines that leverage <strong>RAG, multi-agent orchestration, and real-time LLM
-            integrations</strong> to solve real-world problems.</p>
-        <p>I specialize in turning complex AI concepts into working systems: from retrieval-augmented generation to
-          autonomous agent workflows that actually ship.</p>
+        <h2 class="section-heading">
+          Full-Stack Engineer<br />
+          <em>turned AI Architect</em>
+        </h2>
+
+        <p>
+          With over <strong class="highlight-underline">10 years</strong> of software engineering experience,
+          I've evolved from building scalable full-stack applications to designing
+          <strong class="highlight-underline">intelligent systems powered by LLMs and Agentic AI</strong>.
+        </p>
+        <p>
+          My work sits at the intersection of robust software engineering and cutting-edge AI &mdash; I build
+          production-ready pipelines that leverage <strong>RAG</strong>, <strong>multi-agent orchestration</strong>,
+          and <strong>real-time LLM integrations</strong> to solve real-world problems.
+        </p>
+        <p>
+          I specialize in turning complex AI concepts into working systems: from retrieval-augmented generation to
+          autonomous agent workflows that actually ship.
+        </p>
+
+        <!-- Stats row -->
+        <div class="about-stats">
+          <div class="stat-item">
+            <span class="stat-number" appReveal>10+</span>
+            <span class="stat-label">Years Experience</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number" appReveal>8+</span>
+            <span class="stat-label">Projects Delivered</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number" appReveal>5+</span>
+            <span class="stat-label">AI Pipelines</span>
+          </div>
+        </div>
+
+        <!-- Tags -->
         <div class="about-tags">
           <span class="tag">&#129504; LLM Integrations</span>
           <span class="tag">&#128257; Agentic Workflows</span>
@@ -18,46 +56,81 @@
           <span class="tag">&#9881; System Design</span>
         </div>
       </div>
+
+      <!-- Right column -->
       <div class="about-card-col">
-        <div class="glass-card about-info-card" appReveal [delay]="100">
-          <div class="info-item">
-            <span class="info-icon">&#128205;</span>
-            <div>
-              <div class="info-label">Location</div>
-              <div class="info-value">India (Dehradun)</div>
+        <!-- Profile visual card -->
+        <div class="glass-card profile-card" appReveal [delay]="100">
+          <div class="profile-card-inner">
+            <div class="profile-avatar">
+              <div class="avatar-ring">
+                <div class="avatar-placeholder">
+                  <svg viewBox="0 0 48 48" width="32" height="32" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M32 32c0-4.42-3.58-8-8-8s-8 3.58-8 8" />
+                    <circle cx="24" cy="18" r="5" />
+                    <circle cx="24" cy="24" r="22" />
+                  </svg>
+                </div>
+              </div>
+              <div class="avatar-status"></div>
+            </div>
+            <div class="profile-info">
+              <div class="profile-name">Mahipal Singh</div>
+              <div class="profile-role">Full-Stack & AI Engineer</div>
             </div>
           </div>
-          <div class="info-item">
-            <img src="/assets/gmail.png" alt="Gmail logo" class="info-logo" />
-            <div>
-              <div class="info-label">Email</div>
-              <div class="info-value"><a href="mailto:msmahi14&#64;gmail.com">msmahi14&#64;gmail.com</a></div>
+          <div class="profile-contact">
+            <div class="info-item">
+              <span class="info-icon">&#128205;</span>
+              <div>
+                <div class="info-label">Location</div>
+                <div class="info-value">India (Dehradun)</div>
+              </div>
             </div>
-          </div>
-          <div class="info-item">
-            <img src="/assets/linkedin.png" alt="LinkedIn logo" class="info-logo" />
-            <div>
-              <div class="info-label">LinkedIn</div>
-              <div class="info-value"><a href="https://www.linkedin.com/in/mahipalsingh08"
-                  target="_blank">mahipalsingh08</a></div>
+            <div class="info-item">
+              <img src="/assets/gmail.png" alt="Gmail logo" class="info-logo" loading="lazy" />
+              <div>
+                <div class="info-label">Email</div>
+                <div class="info-value"><a href="mailto:msmahi14&#64;gmail.com">msmahi14&#64;gmail.com</a></div>
+              </div>
             </div>
-          </div>
-          <div class="info-item">
-            <img src="/assets/GitHub.png" alt="GitHub logo" class="info-logo" />
-            <div>
-              <div class="info-label">GitHub</div>
-              <div class="info-value"><a href="https://github.com/mahipalSingh08"
-                  target="_blank">mahipalSingh08</a></div>
+            <div class="info-item">
+              <img src="/assets/linkedin.png" alt="LinkedIn logo" class="info-logo" loading="lazy" />
+              <div>
+                <div class="info-label">LinkedIn</div>
+                <div class="info-value"><a href="https://www.linkedin.com/in/mahipalsingh08" target="_blank">mahipalsingh08</a></div>
+              </div>
+            </div>
+            <div class="info-item">
+              <img src="/assets/GitHub.png" alt="GitHub logo" class="info-logo" loading="lazy" />
+              <div>
+                <div class="info-label">GitHub</div>
+                <div class="info-value"><a href="https://github.com/mahipalSingh08" target="_blank">mahipalSingh08</a></div>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Currently Building card -->
         <div class="glass-card focus-card" appReveal [delay]="200">
-          <div class="focus-title">Currently Building</div>
-          <ul>
-            <li>&#128293; Production-ready AI applications</li>
-            <li>&#129302; Multi-agent orchestration systems</li>
-            <li>&#128279; AI-integrated full-stack architectures</li>
-            <li>&#128230; Scalable RAG pipelines</li>
+          <div class="focus-title">&#128640; Currently Building</div>
+          <ul class="focus-list">
+            <li class="focus-list-item">
+              <span class="focus-bullet"></span>
+              <span>Production-ready AI applications</span>
+            </li>
+            <li class="focus-list-item">
+              <span class="focus-bullet"></span>
+              <span>Multi-agent orchestration systems</span>
+            </li>
+            <li class="focus-list-item">
+              <span class="focus-bullet"></span>
+              <span>AI-integrated full-stack architectures</span>
+            </li>
+            <li class="focus-list-item">
+              <span class="focus-bullet"></span>
+              <span>Scalable RAG pipelines</span>
+            </li>
           </ul>
         </div>
       </div>

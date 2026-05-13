@@ -16,6 +16,13 @@
   font-size: 1.5rem;
 }
 
+.total-count {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  font-weight: normal;
+  margin-left: 0.5rem;
+}
+
 .dashboard-actions {
   display: flex;
   align-items: center;
