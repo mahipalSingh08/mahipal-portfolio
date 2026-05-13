@@ -182,7 +182,7 @@
   padding: 8px;
   font-size: 1.5rem;
   /* text-2xl */
-  background-color: #e8e4df;
+  background-color: #191818;
   border-radius: 9999px;
   /* rounded-full */
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, .1),
@@ -202,7 +202,7 @@
 .reaction-btn {
   position: relative;
   cursor: pointer;
-  background-color: #ffffff;
+  background-color: #191818;
   border: none;
   border-radius: 9999px;
   padding: 12px 18px;
@@ -227,7 +227,7 @@
   transform: translateY(-20px) scale(1.25);
 }
 
-/* ── Tooltip via ::before pseudo-element ── */
+/* ── Tooltip via ::before pseudo-element (always dark) ── */
 .reaction-btn::before {
   content: attr(data-label);
   display: none;
@@ -245,9 +245,8 @@
   /* before:px-1 */
   font-size: 0.6rem;
   /* before:text-[.6rem] */
-  color: #ffffff;
-  background-color: rgba(0, 0, 0, 0.5);
-  /* before:bg-black before:bg-opacity-50 */
+  color: #000000;
+  background-color: rgba(255, 255, 255, 0.85);
   border-radius: 8px;
   /* before:rounded-lg */
   white-space: nowrap;
@@ -257,22 +256,6 @@
 .reaction-btn:hover::before {
   display: flex;
   /* hover:before:flex */
-}
-
-/* ── Dark mode ── */
-@media (prefers-color-scheme: dark) {
-  .reaction-bar {
-    background-color: #191818;
-  }
-
-  .reaction-btn {
-    background-color: #191818;
-  }
-
-  .reaction-btn::before {
-    background-color: rgba(255, 255, 255, 0.85);
-    color: #000000;
-  }
 }
 
 /* ── Bounce on click ── */

@@ -175,7 +175,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
           grad.addColorStop(1, this.particles[j].color);
           this.ctx.strokeStyle = grad;
           this.ctx.globalAlpha = (1 - dist / 130) * 0.15;
-          this.ctx.lineWidth = 0.6;
+          this.ctx.lineWidth = 1.0;
           this.ctx.stroke();
           this.ctx.globalAlpha = 1;
         }
