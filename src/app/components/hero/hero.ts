@@ -116,42 +116,74 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     const el = this.getOrbitEl();
     if (!el) return;
 
-    /* ---- Click-drag ---- */
-    el.addEventListener('mousedown', (e: MouseEvent) => {
+    /* ---- Mouse drag ---- */
+    const onMouseDown = (e: MouseEvent) => {
       e.preventDefault();
-      this.isDragging = true;
-      this.dragStartX = e.clientX;
-      this.dragStartY = e.clientY;
-      el.classList.add('dragging');
-      cancelAnimationFrame(this.returnAnimId);
-      this.returnAnimId = 0;
-    });
-
-    window.addEventListener('mousemove', (e: MouseEvent) => {
-      if (!this.isDragging) return;
-      const dx = e.clientX - this.dragStartX;
-      const dy = e.clientY - this.dragStartY;
-      // Unrestricted spin: no clamping, high sensitivity
-      this.currentRotateY = dx * 1.0;
-      this.currentRotateX = -dy * 1.0;
-      this.applyRotation(this.currentRotateX, this.currentRotateY);
-    });
-
-    const endDrag = () => {
-      if (!this.isDragging) return;
-      this.isDragging = false;
-      el.classList.remove('dragging');
-      this.animateReturn();
+      this.startDrag(e.clientX, e.clientY, el);
     };
 
-    window.addEventListener('mouseup', endDrag);
+    const onMouseMove = (e: MouseEvent) => {
+      this.onDragMove(e.clientX, e.clientY);
+    };
+
+    /* ---- Touch drag ---- */
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      this.startDrag(e.touches[0].clientX, e.touches[0].clientY, el);
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      this.onDragMove(e.touches[0].clientX, e.touches[0].clientY);
+      e.preventDefault(); // prevent page scroll while dragging
+    };
+
+    const onEnd = () => {
+      this.endDrag(el);
+    };
+
+    el.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onEnd);
+
+    el.addEventListener('touchstart', onTouchStart, { passive: false });
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('touchend', onEnd);
 
     /* Store handlers for cleanup */
     (el as any).__dragCleanup = () => {
-      el.removeEventListener('mousedown', (el as any).__dragCleanup);
-      window.removeEventListener('mouseup', endDrag);
-      window.removeEventListener('mousemove', (el as any).__dragCleanup);
+      el.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onEnd);
+      el.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onEnd);
     };
+  }
+
+  private startDrag(clientX: number, clientY: number, el: HTMLDivElement) {
+    this.isDragging = true;
+    this.dragStartX = clientX;
+    this.dragStartY = clientY;
+    el.classList.add('dragging');
+    cancelAnimationFrame(this.returnAnimId);
+    this.returnAnimId = 0;
+  }
+
+  private onDragMove(clientX: number, clientY: number) {
+    if (!this.isDragging) return;
+    const dx = clientX - this.dragStartX;
+    const dy = clientY - this.dragStartY;
+    this.currentRotateY = dx * 1.0;
+    this.currentRotateX = -dy * 1.0;
+    this.applyRotation(this.currentRotateX, this.currentRotateY);
+  }
+
+  private endDrag(el: HTMLDivElement) {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+    el.classList.remove('dragging');
+    this.animateReturn();
   }
 
   private removeOrbitDrag() {
