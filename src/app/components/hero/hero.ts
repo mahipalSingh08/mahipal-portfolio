@@ -131,8 +131,9 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
       if (!this.isDragging) return;
       const dx = e.clientX - this.dragStartX;
       const dy = e.clientY - this.dragStartY;
-      this.currentRotateY = Math.max(-20, Math.min(20, dx * 0.3));
-      this.currentRotateX = Math.max(-20, Math.min(20, -dy * 0.3));
+      // Unrestricted spin: no clamping, high sensitivity
+      this.currentRotateY = dx * 1.0;
+      this.currentRotateX = -dy * 1.0;
       this.applyRotation(this.currentRotateX, this.currentRotateY);
     });
 
@@ -162,14 +163,25 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   }
 
   private animateReturn() {
-    const step = () => {
-      const speed = 0.10;
-      this.currentRotateX += (0 - this.currentRotateX) * speed;
-      this.currentRotateY += (0 - this.currentRotateY) * speed;
+    const startRotateX = this.currentRotateX;
+    const startRotateY = this.currentRotateY;
+    const startTime = performance.now();
+    // Longer duration for big spins: 300ms per 180° of rotation, min 600ms
+    const maxDeg = Math.max(Math.abs(startRotateX), Math.abs(startRotateY));
+    const duration = Math.max(600, (maxDeg / 180) * 300);
 
+    const step = (now: number) => {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+
+      // easeOutCubic: 1 − (1 − t)³ → fast start, slow settle
+      const ease = 1 - Math.pow(1 - t, 3);
+
+      this.currentRotateX = startRotateX * (1 - ease);
+      this.currentRotateY = startRotateY * (1 - ease);
       this.applyRotation(this.currentRotateX, this.currentRotateY);
 
-      if (Math.abs(this.currentRotateX) > 0.05 || Math.abs(this.currentRotateY) > 0.05) {
+      if (t < 1) {
         this.returnAnimId = requestAnimationFrame(step);
       } else {
         this.currentRotateX = 0;
