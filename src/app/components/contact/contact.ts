@@ -26,7 +26,8 @@ export class ContactComponent implements OnInit {
   contactForm = this.fb.group({
     name: ['', [this.trimmedLengthValidator(3, 100)]],
     email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
-    query: ['', [this.trimmedLengthValidator(10, 1000)]]
+    query: ['', [this.trimmedLengthValidator(10, 1000)]],
+    website: [''] //honeypot
   });
 
   submitText = signal('Send Message ->');
@@ -56,6 +57,19 @@ export class ContactComponent implements OnInit {
 
   onSubmit() {
     if (this.submitStatus() === 'loading' || this.submitStatus() === 'success') {
+      return;
+    }
+
+    // Honeypot detection:
+    if (this.contactForm.controls.website.value?.trim()) {
+      console.warn('[Honeypot] Bot detected — form submission blocked');
+      // Simulate success to avoid alerting the bot
+      this.submitStatus.set('success');
+      this.submitText.set('✅ Message Sent!');
+      this.submitResetTimer = setTimeout(() => {
+        this.resetSubmitState();
+        this.contactForm.reset();
+      }, 3500);
       return;
     }
 
