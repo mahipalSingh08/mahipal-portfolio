@@ -35,6 +35,35 @@ export interface DeleteResponse {
   deleted_count: number;
 }
 
+export interface Reaction {
+  reaction: string;
+  total: number;
+  emailCount: number;
+}
+
+export interface ReactionResponse {
+  _id: string | null;
+  reactions: Reaction[];
+  grandTotal: number;
+  grandEmailCount: number;
+}
+
+export interface ReactionEmail {
+  email: string;
+  name: string;
+  created_at: string;
+}
+
+export interface ReactionEmailResponse {
+  data: ReactionEmail[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    total_pages: number;
+  };
+}
+
 // ─── API Service ────────────────────────────────────────────────────────────
 
 @Injectable({
@@ -82,9 +111,19 @@ export class ApiService {
    * GET /api/reaction
    * Fetches all reactions with statistics.
    */
-  getReactions(): Observable<Array<{ reaction: string; count: number; email: string[]; totalCount: number }>> {
+  getReactions(): Observable<ReactionResponse> {
     return this.http
-      .get<Array<{ reaction: string; count: number; email: string[]; totalCount: number }>>(`${this.baseUrl}/api/reaction`)
+      .get<ReactionResponse>(`${this.baseUrl}/api/reaction`)
+      .pipe(catchError((err) => this.handleError(err)));
+  }
+
+  /**
+   * GET /api/reaction/{react}
+   * Fetches unique user reactions with pagination.
+   */
+  getReactionEmails(reactionType: string, page: number = 1, limit: number = 5): Observable<ReactionEmailResponse> {
+    return this.http
+      .get<ReactionEmailResponse>(`${this.baseUrl}/api/reaction/${reactionType}?page=${page}&limit=${limit}`)
       .pipe(catchError((err) => this.handleError(err)));
   }
 

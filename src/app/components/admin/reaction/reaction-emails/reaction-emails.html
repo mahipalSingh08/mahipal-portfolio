@@ -1,0 +1,46 @@
+<div class="reaction-emails-container">
+  <div class="header-section">
+    <button class="back-btn" (click)="goBack()">
+      <span class="back-icon">←</span> Back
+    </button>
+    <h1>Emails for "{{ reactionType }}"</h1>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading emails...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-state">
+    <p>{{ errorMessage }}</p>
+    <button (click)="loadEmails()">Retry</button>
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage" class="table-container">
+    <table class="emails-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let email of emails">
+          <td class="name-cell">{{ email.name || 'Anonymous' }}</td>
+          <td class="email-cell">{{ email.email }}</td>
+          <td class="date-cell">{{ email.created_at | date:'medium' }}</td>
+        </tr>
+        <tr *ngIf="emails.length === 0">
+          <td colspan="3" class="no-data">No emails found for this reaction.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button [disabled]="currentPage === 1" (click)="prevPage()" class="page-btn">Previous</button>
+      <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button [disabled]="currentPage === totalPages" (click)="nextPage()" class="page-btn">Next</button>
+    </div>
+  </div>
+</div>

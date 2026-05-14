@@ -1,37 +1,46 @@
 <div class="dashboard-content">
-  <h2>Reactions<span class="total-count">({{ reactions.length ? reactions[0].totalCount : 0 }} total)</span></h2>
+  <h2>Reactions<span class="total-count">({{ grandTotal }} total, {{ grandEmailCount }} unique emails)</span></h2>
 
-  <div *ngIf="isLoading" class="loading-state">
-    <p>Loading reactions...</p>
-  </div>
+  @if (isLoading) {
+    <div class="loading-state">
+      <p>Loading reactions...</p>
+    </div>
+  }
 
-  <div *ngIf="errorMessage" class="error-state">
-    <p class="error-message">❌ {{ errorMessage }}</p>
-  </div>
+  @if (errorMessage) {
+    <div class="error-state">
+      <p class="error-message">❌ {{ errorMessage }}</p>
+    </div>
+  }
   
-  <table class="reactions-table" *ngIf="reactions.length > 0 && !isLoading">
-    <thead>
-      <tr>
-        <th>Emoji</th>
-        <th>Count</th>
-        <th>Emails</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let reaction of reactions">
-        <td class="emoji-cell">{{ getReactionEmoji(reaction.reaction) }}</td>
-        <td class="count-cell">{{ reaction.count }}</td>
-        <td class="email-cell">
-          <div *ngIf="reaction.email.length > 0; else noEmails">
-            <div *ngFor="let email of reaction.email" class="email-item">{{ email }}</div>
-          </div>
-          <ng-template #noEmails>
-            <span class="no-data">-</span>
-          </ng-template>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  @if (reactions.length && !isLoading) {
+    <table class="reactions-table">
+      <thead>
+        <tr>
+          <th class="emoji-header">Emoji</th>
+          <th class="reaction-header">Reaction</th>
+          <th class="count-header">Count</th>
+          <th class="email-header">Email Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (reaction of reactions; track reaction.reaction) {
+          <tr>
+            <td class="emoji-cell">{{ getReactionEmoji(reaction.reaction) }}</td>
+            <td class="reaction-cell">{{ reaction.reaction }}</td>
+            <td class="count-cell">{{ reaction.total }}</td>
+            @if (reaction.emailCount) {
+              <td class="email-cell"><button class="email-count-btn" (click)="viewEmails(reaction.reaction)">{{ reaction.emailCount }}</button></td>
+            } @else {
+              <td class="email-cell">--</td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
 
-  <p *ngIf="reactions.length === 0 && !isLoading && !errorMessage" class="no-data">No reactions data available.</p>
+  @if (!reactions.length && !isLoading && !errorMessage) {
+    <p class="no-data">No reactions data available.</p>
+  }
 </div>
