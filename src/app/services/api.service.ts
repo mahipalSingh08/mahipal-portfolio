@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, shareReplay } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { SnackbarService } from './snackbar.service';
 
@@ -74,16 +74,28 @@ export class ApiService {
   private snackbar = inject(SnackbarService);
   private readonly baseUrl = environment.apiBaseUrl;
 
-  // ── Health Check ────────────────────────────────────────────────────────
+  private healthCheck$: Observable<HealthCheckResponse> | null = null;
 
   /**
    * GET /health
    * Checks if the Python backend is up and running.
+   * Returns a shared observable to ensure only one request is made per page refresh.
    */
   checkHealth(): Observable<HealthCheckResponse> {
-    return this.http
-      .get<HealthCheckResponse>(`${this.baseUrl}/health`)
-      .pipe(retry(1), catchError((err) => this.handleError(err)));
+    if (!this.healthCheck$) {
+      this.healthCheck$ = this.http
+        .get<HealthCheckResponse>(`${this.baseUrl}/health`)
+        .pipe(
+          retry(1),
+          shareReplay(1),
+          catchError((err) => {
+            // Reset so that future calls can retry if the first one failed permanently
+            this.healthCheck$ = null;
+            return this.handleError(err);
+          })
+        );
+    }
+    return this.healthCheck$;
   }
 
   // ── Contact Endpoints ───────────────────────────────────────────────────
