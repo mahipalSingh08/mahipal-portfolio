@@ -1,13 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiService } from '../../../services/api.service';
-
-interface ReactionData {
-    reaction: string;
-    count: number;
-    email: string[];
-    totalCount: number;
-}
+import { Router } from '@angular/router';
+import { ApiService, Reaction, ReactionResponse } from '../../../services/api.service';
 
 @Component({
     selector: 'app-reaction',
@@ -20,7 +14,10 @@ interface ReactionData {
 export class ReactionComponent implements OnInit {
     private apiService = inject(ApiService);
     private cdr = inject(ChangeDetectorRef);
-    reactions: ReactionData[] = [];
+    private router = inject(Router);
+    reactions: Reaction[] = [];
+    grandTotal = 0;
+    grandEmailCount = 0;
     isLoading = true;
     errorMessage: string | null = null;
 
@@ -29,14 +26,38 @@ export class ReactionComponent implements OnInit {
     }
 
     private loadReactions(): void {
-        console.log('Loading reactions...');
         this.isLoading = true;
         this.errorMessage = null;
         this.cdr.markForCheck();
         
         this.apiService.getReactions().subscribe({
-            next: (reactions) => {
-                this.reactions = reactions;
+            next: (response: any) => {
+                let data = response?.length > 0 ? response[0] : {};
+
+                if (data && data.reactions && Array.isArray(data.reactions)) {
+                    // New format: { reactions: [], grandTotal: 0, ... }
+                    this.reactions = data.reactions.map((r: any) => ({
+                        reaction: r.reaction,
+                        total: r.total ?? r.count ?? 0,
+                        emailCount: r.emailCount ?? (Array.isArray(r.email) ? r.email.length : 0)
+                    }));
+                    this.grandTotal = data.grandTotal || 0;
+                    this.grandEmailCount = data.grandEmailCount || 0;
+                } else if (Array.isArray(data)) {
+                    // Array format
+                    this.reactions = data.map((r: any) => ({
+                        reaction: r.reaction,
+                        total: r.total ?? r.count ?? 0,
+                        emailCount: r.emailCount ?? (Array.isArray(r.email) ? r.email.length : 0)
+                    }));
+                    this.grandTotal = this.reactions.reduce((acc, curr) => acc + curr.total, 0);
+                    this.grandEmailCount = 0; 
+                } else {
+                    this.reactions = [];
+                }
+                
+                this.sortReactions();
+                
                 this.isLoading = false;
                 this.cdr.markForCheck();
             },
@@ -53,10 +74,23 @@ export class ReactionComponent implements OnInit {
         const emojiMap: { [key: string]: string } = {
             'Like': '👍',
             'Smile': '😊',
-            'Appreciate': '🙏',
+            'Appreciate': '✨',
             'Celebrate': '🎉',
-            'Cheer': '📣'
+            'Cheer': '👏🏻'
         };
         return emojiMap[reaction] || '👍';
+    }
+
+    private sortReactions(): void {
+        const order = ['Like', 'Cheer', 'Celebrate', 'Appreciate', 'Smile'];
+        this.reactions.sort((a, b) => {
+            const indexA = order.indexOf(a.reaction);
+            const indexB = order.indexOf(b.reaction);
+            return (indexA === -1 ? 99 : indexA) - (indexB === -1 ? 99 : indexB);
+        });
+    }
+
+    viewEmails(reactionType: string): void {
+        this.router.navigate(['/admin/reaction', reactionType]);
     }
 }

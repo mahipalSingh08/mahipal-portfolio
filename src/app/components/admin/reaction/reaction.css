@@ -38,10 +38,12 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 1.5rem;
-  background-color: #1e293b;
-  border-radius: 0.5rem;
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .reactions-table thead {
@@ -54,6 +56,12 @@
   font-weight: 600;
   color: #e2e8f0;
   border-bottom: 2px solid #334155;
+}
+
+.emoji-header,
+.count-header,
+.email-header {
+  text-align: center !important;
 }
 
 .reactions-table td {
@@ -69,17 +77,50 @@
 .emoji-cell {
   font-size: 1.5rem;
   text-align: center;
-  width: 15%;
+  width: 10%;
+}
+
+.reaction-cell {
+  font-weight: 500;
+  width: 30%;
 }
 
 .count-cell {
   text-align: center;
   font-weight: 500;
-  width: 15%;
+  width: 30%;
 }
 
 .email-cell {
-  width: 70%;
+  width: 30%;
+  text-align: center;
+}
+
+.email-count-btn {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+}
+
+.email-count-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+  filter: brightness(1.1);
+}
+
+.email-count-btn:active {
+  transform: translateY(0);
 }
 
 .email-item {
@@ -90,4 +131,6 @@
 .no-data {
   color: #94a3b8;
   font-style: italic;
+  text-align: center;
+  padding: 2rem;
 }

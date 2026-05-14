@@ -22,6 +22,7 @@ export class ContactComponent implements OnInit {
   private apiService = inject(ApiService);
 
   isBackendReady = signal<boolean>(false);
+  isCheckingHealth = signal<boolean>(true);
 
   contactForm = this.fb.group({
     name: ['', [this.trimmedLengthValidator(3, 100)]],
@@ -36,8 +37,14 @@ export class ContactComponent implements OnInit {
 
   ngOnInit() {
     this.apiService.checkHealth().subscribe({
-      next: () => this.isBackendReady.set(true),
-      error: () => this.isBackendReady.set(false)
+      next: () => {
+        this.isBackendReady.set(true);
+        this.isCheckingHealth.set(false);
+      },
+      error: () => {
+        this.isBackendReady.set(false);
+        this.isCheckingHealth.set(false);
+      }
     });
 
     this.contactForm.valueChanges.subscribe(() => {

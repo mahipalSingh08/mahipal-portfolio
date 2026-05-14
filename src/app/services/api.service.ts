@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, shareReplay } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { SnackbarService } from './snackbar.service';
 
@@ -35,6 +35,35 @@ export interface DeleteResponse {
   deleted_count: number;
 }
 
+export interface Reaction {
+  reaction: string;
+  total: number;
+  emailCount: number;
+}
+
+export interface ReactionResponse {
+  _id: string | null;
+  reactions: Reaction[];
+  grandTotal: number;
+  grandEmailCount: number;
+}
+
+export interface ReactionEmail {
+  email: string;
+  name: string;
+  created_at: string;
+}
+
+export interface ReactionEmailResponse {
+  data: ReactionEmail[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    total_pages: number;
+  };
+}
+
 // ─── API Service ────────────────────────────────────────────────────────────
 
 @Injectable({
@@ -45,16 +74,28 @@ export class ApiService {
   private snackbar = inject(SnackbarService);
   private readonly baseUrl = environment.apiBaseUrl;
 
-  // ── Health Check ────────────────────────────────────────────────────────
+  private healthCheck$: Observable<HealthCheckResponse> | null = null;
 
   /**
    * GET /health
    * Checks if the Python backend is up and running.
+   * Returns a shared observable to ensure only one request is made per page refresh.
    */
   checkHealth(): Observable<HealthCheckResponse> {
-    return this.http
-      .get<HealthCheckResponse>(`${this.baseUrl}/health`)
-      .pipe(retry(1), catchError((err) => this.handleError(err)));
+    if (!this.healthCheck$) {
+      this.healthCheck$ = this.http
+        .get<HealthCheckResponse>(`${this.baseUrl}/health`)
+        .pipe(
+          retry(1),
+          shareReplay(1),
+          catchError((err) => {
+            // Reset so that future calls can retry if the first one failed permanently
+            this.healthCheck$ = null;
+            return this.handleError(err);
+          })
+        );
+    }
+    return this.healthCheck$;
   }
 
   // ── Contact Endpoints ───────────────────────────────────────────────────
@@ -82,9 +123,19 @@ export class ApiService {
    * GET /api/reaction
    * Fetches all reactions with statistics.
    */
-  getReactions(): Observable<Array<{ reaction: string; count: number; email: string[]; totalCount: number }>> {
+  getReactions(): Observable<ReactionResponse> {
     return this.http
-      .get<Array<{ reaction: string; count: number; email: string[]; totalCount: number }>>(`${this.baseUrl}/api/reaction`)
+      .get<ReactionResponse>(`${this.baseUrl}/api/reaction`)
+      .pipe(catchError((err) => this.handleError(err)));
+  }
+
+  /**
+   * GET /api/reaction/{react}
+   * Fetches unique user reactions with pagination.
+   */
+  getReactionEmails(reactionType: string, page: number = 1, limit: number = 5): Observable<ReactionEmailResponse> {
+    return this.http
+      .get<ReactionEmailResponse>(`${this.baseUrl}/api/reaction/${reactionType}?page=${page}&limit=${limit}`)
       .pipe(catchError((err) => this.handleError(err)));
   }
 
