@@ -27,7 +27,7 @@ export class ContactComponent implements OnInit {
     name: ['', [this.trimmedLengthValidator(3, 100)]],
     email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
     query: ['', [this.trimmedLengthValidator(10, 1000)]],
-    website: ['']  // Honeypot field — bots fill this, real users don't see it
+    website: [''] //honeypot
   });
 
   submitText = signal('Send Message ->');
@@ -60,7 +60,7 @@ export class ContactComponent implements OnInit {
       return;
     }
 
-    // Honeypot detection: if the hidden field has a value, it's a bot — silently ignore
+    // Honeypot detection:
     if (this.contactForm.controls.website.value?.trim()) {
       console.warn('[Honeypot] Bot detected — form submission blocked');
       // Simulate success to avoid alerting the bot
