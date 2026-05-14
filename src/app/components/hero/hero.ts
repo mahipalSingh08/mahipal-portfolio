@@ -50,10 +50,13 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   };
   private destroyed = false;
 
-  /** Mouse position for parallax (normalized -1..1) */
-  private mouseX = 0;
-  private mouseY = 0;
-  private mouseHandler = (e: MouseEvent) => this.onMouseMove(e);
+  /** Click-drag tilt state */
+  private isDragging = false;
+  private dragStartX = 0;
+  private dragStartY = 0;
+  private currentRotateX = 0;
+  private currentRotateY = 0;
+  private returnAnimId = 0;
 
   /* Typing state */
   private typingPhrases = [
@@ -74,10 +77,10 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.mobileMediaQuery.addEventListener('change', this.mobileMediaQueryHandler);
     this.initCanvas();
+    this.setupOrbitDrag();
     this.ngZone.runOutsideAngular(() => {
       this.animateBg();
       window.addEventListener('resize', this.resizeHandler);
-      window.addEventListener('mousemove', this.mouseHandler);
     });
 
     /* Start typing after loader finishes */
@@ -88,29 +91,138 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.destroyed = true;
     cancelAnimationFrame(this.animationId);
+    cancelAnimationFrame(this.returnAnimId);
     window.removeEventListener('resize', this.resizeHandler);
-    window.removeEventListener('mousemove', this.mouseHandler);
+    this.removeOrbitDrag();
     this.mobileMediaQuery?.removeEventListener('change', this.mobileMediaQueryHandler);
     if (this.typingTimer) clearTimeout(this.typingTimer);
     if (this.heroTitleTimer) clearTimeout(this.heroTitleTimer);
   }
 
-  /* ---- Mouse parallax ---- */
-  private onMouseMove(e: MouseEvent) {
-    this.mouseX = (e.clientX / window.innerWidth) * 2 - 1;   // -1 .. 1
-    this.mouseY = (e.clientY / window.innerHeight) * 2 - 1;  // -1 .. 1
+  /* ---- Click-drag tilt ---- */
 
-    const el = this.orbitSystemRef?.nativeElement;
+  private getOrbitEl(): HTMLDivElement | null {
+    return this.orbitSystemRef?.nativeElement ?? null;
+  }
+
+  private applyRotation(x: number, y: number) {
+    const el = this.getOrbitEl();
     if (el) {
-      const rx = this.mouseY * 6;   // -6..6 deg
-      const ry = this.mouseX * -8;  // -8..8 deg
-      el.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
-
-      /* subtle translate shift */
-      const tx = this.mouseX * 6;
-      const ty = this.mouseY * 4;
-      el.style.translate = `${tx}px ${ty}px`;
+      el.style.transform = `rotateX(${x}deg) rotateY(${y}deg)`;
     }
+  }
+
+  private setupOrbitDrag() {
+    const el = this.getOrbitEl();
+    if (!el) return;
+
+    /* ---- Mouse drag ---- */
+    const onMouseDown = (e: MouseEvent) => {
+      e.preventDefault();
+      this.startDrag(e.clientX, e.clientY, el);
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      this.onDragMove(e.clientX, e.clientY);
+    };
+
+    /* ---- Touch drag ---- */
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      this.startDrag(e.touches[0].clientX, e.touches[0].clientY, el);
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length !== 1) return;
+      this.onDragMove(e.touches[0].clientX, e.touches[0].clientY);
+      e.preventDefault(); // prevent page scroll while dragging
+    };
+
+    const onEnd = () => {
+      this.endDrag(el);
+    };
+
+    el.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onEnd);
+
+    el.addEventListener('touchstart', onTouchStart, { passive: false });
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('touchend', onEnd);
+
+    /* Store handlers for cleanup */
+    (el as any).__dragCleanup = () => {
+      el.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onEnd);
+      el.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onEnd);
+    };
+  }
+
+  private startDrag(clientX: number, clientY: number, el: HTMLDivElement) {
+    this.isDragging = true;
+    this.dragStartX = clientX;
+    this.dragStartY = clientY;
+    el.classList.add('dragging');
+    cancelAnimationFrame(this.returnAnimId);
+    this.returnAnimId = 0;
+  }
+
+  private onDragMove(clientX: number, clientY: number) {
+    if (!this.isDragging) return;
+    const dx = clientX - this.dragStartX;
+    const dy = clientY - this.dragStartY;
+    this.currentRotateY = dx * 1.0;
+    this.currentRotateX = -dy * 1.0;
+    this.applyRotation(this.currentRotateX, this.currentRotateY);
+  }
+
+  private endDrag(el: HTMLDivElement) {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+    el.classList.remove('dragging');
+    this.animateReturn();
+  }
+
+  private removeOrbitDrag() {
+    const el = this.getOrbitEl();
+    if (el && (el as any).__dragCleanup) {
+      (el as any).__dragCleanup();
+      delete (el as any).__dragCleanup;
+    }
+  }
+
+  private animateReturn() {
+    const startRotateX = this.currentRotateX;
+    const startRotateY = this.currentRotateY;
+    const startTime = performance.now();
+    // Longer duration for big spins: 300ms per 180° of rotation, min 600ms
+    const maxDeg = Math.max(Math.abs(startRotateX), Math.abs(startRotateY));
+    const duration = Math.max(600, (maxDeg / 180) * 300);
+
+    const step = (now: number) => {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+
+      // easeOutCubic: 1 − (1 − t)³ → fast start, slow settle
+      const ease = 1 - Math.pow(1 - t, 3);
+
+      this.currentRotateX = startRotateX * (1 - ease);
+      this.currentRotateY = startRotateY * (1 - ease);
+      this.applyRotation(this.currentRotateX, this.currentRotateY);
+
+      if (t < 1) {
+        this.returnAnimId = requestAnimationFrame(step);
+      } else {
+        this.currentRotateX = 0;
+        this.currentRotateY = 0;
+        this.applyRotation(0, 0);
+        this.returnAnimId = 0;
+      }
+    };
+    this.returnAnimId = requestAnimationFrame(step);
   }
 
   /* ---- Canvas particles ---- */
