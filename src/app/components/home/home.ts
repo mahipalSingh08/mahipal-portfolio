@@ -10,6 +10,7 @@ import { CertificationsComponent } from '../certifications/certifications';
 import { ContactComponent } from '../contact/contact';
 import { FooterComponent } from '../footer/footer';
 import { BackToTopComponent } from '../back-to-top/back-to-top';
+import { ChatbotComponent } from '../chatbot/chatbot';
 import { ApiService } from '../../services/api.service';
 import { SnackbarService } from '../../services/snackbar.service';
 
@@ -28,6 +29,7 @@ import { SnackbarService } from '../../services/snackbar.service';
     ContactComponent,
     FooterComponent,
     BackToTopComponent,
+    ChatbotComponent,
   ],
   templateUrl: './home.html',
   styleUrl: './home.css',

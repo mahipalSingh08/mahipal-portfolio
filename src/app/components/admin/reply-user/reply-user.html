@@ -1,4 +1,110 @@
-<div class="dashboard-content">
-  <h2>Reply User</h2>
-  <p>This is a placeholder for replying to users.</p>
+<div class="dashboard-header">
+  <h2>Chat Sessions <span class="total-count">({{ totalItems }} total)</span></h2>
+  <div class="dashboard-actions">
+    <div class="limit-selector">
+      <label for="limit">Items per page: </label>
+      <select id="limit" [ngModel]="limit" (change)="changeLimit($event)">
+        <option *ngFor="let l of limits" [value]="l">{{ l }}</option>
+      </select>
+    </div>
+    <button class="delete-many-btn" [disabled]="selectedSessionIds.size === 0" (click)="deleteSelected()">
+      Delete Many ({{ selectedSessionIds.size }})
+    </button>
+  </div>
 </div>
+
+<div class="table-container">
+  @if (isLoading) {
+  <div class="loading-overlay">Loading...</div>
+  } @else {
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th class="checkbox-col">
+          <input type="checkbox" [checked]="isAllSelected()" (change)="toggleAll($event)" />
+        </th>
+        <th>Session ID</th>
+        <th>Created At</th>
+        <th>Messages Count</th>
+        <th>Last Message Preview</th>
+        <th class="action-col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (chats.length === 0) {
+      <tr>
+        <td colspan="6" class="no-data">No chat sessions found.</td>
+      </tr>
+      } @else {
+      @for (chat of chats; track chat.session_id) {
+      <tr>
+        <td class="checkbox-col">
+          <input type="checkbox" [checked]="selectedSessionIds.has(chat.session_id)" (change)="toggleSelection(chat.session_id)" />
+        </td>
+        <td data-label="Session ID" class="session-id-cell" (click)="openChatModal(chat)">
+          <code>{{ chat.session_id }}</code>
+        </td>
+        <td data-label="Created At">{{ chat?.created_at ? (chat.created_at | date:'M/d/yyyy HH:mm':'+0530') : 'N/A' }}</td>
+        <td data-label="Messages Count">{{ chat?.messages?.length || 0 }}</td>
+        <td data-label="Last Message Preview" class="preview-cell" (click)="openChatModal(chat)">
+          {{ chat?.messages?.length ? chat.messages[chat.messages.length - 1].content : 'No messages' }}
+        </td>
+        <td class="action-col">
+          <button class="view-btn" (click)="openChatModal(chat)">View</button>
+          <button class="delete-btn" (click)="deleteSingle(chat.session_id)">Delete</button>
+        </td>
+      </tr>
+      }
+      }
+    </tbody>
+  </table>
+  }
+</div>
+
+<div class="pagination-controls" *ngIf="totalPages > 1">
+  <button class="page-btn" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+    Previous
+  </button>
+  <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+  <button class="page-btn" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
+    Next
+  </button>
+</div>
+
+<!-- Chat Transcript Modal Popup -->
+@if (showChatModal && selectedChat) {
+<div class="modal-overlay" (click)="closeChatModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="header-details">
+        <h3>Chat History</h3>
+        <span class="session-label">Session: <code>{{ selectedChat.session_id }}</code></span>
+      </div>
+      <button class="modal-close-btn" (click)="closeChatModal()">×</button>
+    </div>
+    
+    <div class="modal-body chat-transcript-body">
+      @if (selectedChat.messages.length === 0) {
+        <div class="no-messages-alert">No messages in this chat session.</div>
+      } @else {
+        <div class="chat-bubbles-list">
+          @for (msg of selectedChat.messages; track $index) {
+            <div class="chat-bubble-wrapper" [ngClass]="msg.role === 'user' ? 'user-wrapper' : 'ai-wrapper'">
+              <div class="chat-bubble-meta">
+                <span class="sender-name">{{ msg.role === 'user' ? 'Visitor' : 'AI Assistant' }}</span>
+              </div>
+              <div class="chat-bubble-bubble" [ngClass]="msg.role === 'user' ? 'user-bubble' : 'ai-bubble'">
+                <p>{{ msg.content }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="modal-footer">
+      <button class="modal-close-action-btn" (click)="closeChatModal()">Close</button>
+    </div>
+  </div>
+</div>
+}
