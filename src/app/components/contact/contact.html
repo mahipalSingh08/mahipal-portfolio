@@ -40,11 +40,41 @@
           <span class="contact-arrow">&rarr;</span>
         </a>
         @if (isCheckingHealth()) {
-          <div class="backend-loading">
-            <div class="progress-bar-container">
-              <div class="progress-bar"></div>
+          <div class="backend-loading glass-card-glowing">
+            <div class="loading-header">
+              <div class="status-indicator">
+                <span class="pulse-ring"></span>
+                <span class="pulse-dot"></span>
+              </div>
+              <div class="status-meta">
+                <span class="status-label">API SERVER CONNECTING</span>
+                <span class="status-code">ERR_COLD_START_AWAITING</span>
+              </div>
             </div>
-            <p><span class="loading-clock">⌛</span> Connecting to backend services...., this may take a minute</p>
+            
+            <div class="progress-bar-hud">
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill-glowing"></div>
+                <div class="progress-scanner"></div>
+              </div>
+              <div class="hud-ticks">
+                <span class="tick"></span>
+                <span class="tick"></span>
+                <span class="tick"></span>
+                <span class="tick"></span>
+                <span class="tick"></span>
+                <span class="tick"></span>
+                <span class="tick"></span>
+                <span class="tick"></span>
+                <span class="tick"></span>
+                <span class="tick"></span>
+              </div>
+            </div>
+
+            <div class="telemetry-info">
+              <span class="terminal-prompt">></span>
+              <span class="telemetry-message">Establishing handshake with backend API services... This cold start may take up to <span class="telemetry-highlight">a minute</span>.</span>
+            </div>
           </div>
         }
       </div>
