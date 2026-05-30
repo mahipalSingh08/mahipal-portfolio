@@ -34,6 +34,7 @@ export class ContactComponent implements OnInit {
   submitText = signal('Send Message ->');
   submitStatus = signal<'idle' | 'success' | 'error' | 'loading'>('idle');
   private submitResetTimer: ReturnType<typeof setTimeout> | undefined;
+  private hasTriggeredSilentWakeup = false;
 
   ngOnInit() {
     this.apiService.checkHealth().subscribe({
@@ -48,6 +49,11 @@ export class ContactComponent implements OnInit {
     });
 
     this.contactForm.valueChanges.subscribe(() => {
+      if (!this.hasTriggeredSilentWakeup && this.isBackendReady()) {
+        this.hasTriggeredSilentWakeup = true;
+        this.apiService.wakeUpBackend();
+      }
+
       clearTimeout(this.submitResetTimer);
 
       if (this.submitStatus() === 'error' && this.contactForm.invalid) {
@@ -105,6 +111,7 @@ export class ContactComponent implements OnInit {
       next: () => {
         this.submitStatus.set('success');
         this.submitText.set('✅ Message Sent!');
+        this.hasTriggeredSilentWakeup = false;
         this.submitResetTimer = setTimeout(() => {
           this.resetSubmitState();
           this.contactForm.reset();
