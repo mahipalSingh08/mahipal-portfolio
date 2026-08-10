@@ -75,4 +75,26 @@ export class CertificationsComponent {
       delay: 240
     }
   ];
+
+  selectedProviders: string[] = [];
+
+  get providers(): string[] {
+    return Array.from(new Set(this.certificates.map(c => c.alt)));
+  }
+
+  get filteredCertificates(): Certificate[] {
+    if (this.selectedProviders.length === 0) {
+      return this.certificates;
+    }
+    return this.certificates.filter(c => this.selectedProviders.includes(c.alt));
+  }
+
+  toggleProvider(provider: string) {
+    const index = this.selectedProviders.indexOf(provider);
+    if (index > -1) {
+      this.selectedProviders.splice(index, 1);
+    } else {
+      this.selectedProviders.push(provider);
+    }
+  }
 }

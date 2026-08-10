@@ -2,8 +2,15 @@
   <div class="container">
     <div class="section-label" appReveal>05 — Certifications</div>
     <h2 class="section-heading" appReveal>Credentials & <em>Learning</em></h2>
+
+    <div class="filter-buttons" appReveal>
+      @for (provider of providers; track provider) {
+        <button class="filter-btn" [class.active]="selectedProviders.includes(provider)" (click)="toggleProvider(provider)">{{ provider }}</button>
+      }
+    </div>
+
     <div class="certs-grid">
-      @for (cert of certificates; track cert.link) {
+      @for (cert of filteredCertificates; track cert.link) {
       <a [href]="cert.link" target="_blank"
         data-tooltip="Click to view certificate" class="cert-card glass-card" appReveal [delay]="cert.delay">
         <div class="cert-icon">{{ cert.icon }}</div>
