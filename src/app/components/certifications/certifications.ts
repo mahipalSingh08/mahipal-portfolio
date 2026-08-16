@@ -77,6 +77,7 @@ export class CertificationsComponent {
   ];
 
   selectedProviders: string[] = [];
+  showAll: boolean = false;
 
   get providers(): string[] {
     return Array.from(new Set(this.certificates.map(c => c.alt)));
@@ -89,6 +90,14 @@ export class CertificationsComponent {
     return this.certificates.filter(c => this.selectedProviders.includes(c.alt));
   }
 
+  get displayedCertificates(): Certificate[] {
+    return this.showAll ? this.filteredCertificates : this.filteredCertificates.slice(0, 6);
+  }
+
+  get hasMoreCertificates(): boolean {
+    return this.filteredCertificates.length > 6;
+  }
+
   toggleProvider(provider: string) {
     const index = this.selectedProviders.indexOf(provider);
     if (index > -1) {
@@ -96,5 +105,10 @@ export class CertificationsComponent {
     } else {
       this.selectedProviders.push(provider);
     }
+    this.showAll = false; // Reset to 6 items when changing filters
+  }
+
+  toggleShowAll() {
+    this.showAll = !this.showAll;
   }
 }
