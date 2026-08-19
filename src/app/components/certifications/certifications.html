@@ -9,21 +9,32 @@
       }
     </div>
 
-    <div class="certs-grid">
-      @for (cert of filteredCertificates; track cert.link) {
-      <a [href]="cert.link" target="_blank"
-        data-tooltip="Click to view certificate" class="cert-card glass-card" appReveal [delay]="cert.delay">
-        <div class="cert-icon">{{ cert.icon }}</div>
-        <div class="cert-body">
-          <div class="cert-title">{{ cert.title }}</div>
-          <div class="cert-sub">{{ cert.sub }}</div>
-        </div>
-        <div class="cert-actions">
-          <img [src]="cert.logo" [alt]="cert.alt" class="cert-provider-logo" />
-          <div class="cert-badge">Verified</div>
-        </div>
-      </a>
-      }
+    <div class="certs-grid-wrapper" [class.expanded]="showAll" [class.has-more]="hasMoreCertificates">
+      <div class="certs-grid">
+        @for (cert of filteredCertificates; track cert.link) {
+        <a [href]="cert.link" target="_blank"
+          data-tooltip="Click to view certificate" class="cert-card glass-card" appReveal [delay]="cert.delay">
+          <div class="cert-icon">{{ cert.icon }}</div>
+          <div class="cert-body">
+            <div class="cert-title">{{ cert.title }}</div>
+            <div class="cert-sub">{{ cert.sub }}</div>
+          </div>
+          <div class="cert-actions">
+            <img [src]="cert.logo" [alt]="cert.alt" class="cert-provider-logo" />
+            <div class="cert-badge">Verified</div>
+          </div>
+        </a>
+        }
+      </div>
     </div>
+
+    @if (hasMoreCertificates) {
+      <div class="show-more-container" appReveal>
+        <button class="show-more-btn" [class.expanded-btn]="showAll" (click)="toggleShowAll()">
+          <span>{{ showAll ? 'Show Less' : 'Show More (' + (filteredCertificates.length - 6) + ')' }}</span>
+          <span class="icon" [style.transform]="showAll ? 'rotate(180deg)' : 'rotate(0)'">↓</span>
+        </button>
+      </div>
+    }
   </div>
 </section>
