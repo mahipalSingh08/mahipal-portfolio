@@ -98,6 +98,11 @@ export class ApiService {
     return this.healthCheck$;
   }
 
+  //Silently pings the backend to wake it up
+  wakeUpBackend(): void {
+    this.http.get(`${this.baseUrl}/health`).pipe(catchError(() => [])).subscribe();
+  }
+
   // ── Contact Endpoints ───────────────────────────────────────────────────
   submitContact(data: { name: string; email: string; query: string }): Observable<{ message: string }> {
     return this.http

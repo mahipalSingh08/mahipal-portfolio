@@ -2,79 +2,39 @@
   <div class="container">
     <div class="section-label" appReveal>05 — Certifications</div>
     <h2 class="section-heading" appReveal>Credentials & <em>Learning</em></h2>
-    <div class="certs-grid">
-      <a href="https://www.coursera.org/account/accomplishments/verify/5QP8ODHFOZXQ" target="_blank"
-        data-tooltip="Click to view certificate" class="cert-card glass-card" appReveal [delay]="0">
-        <div class="cert-icon">🧠</div>
-        <div class="cert-body">
-          <div class="cert-title">Agentic AI Systems</div>
-          <div class="cert-sub">LangGraph · CrewAI · MCP · BeeAI</div>
-        </div>
-        <div class="cert-actions">
-          <img src="assets/ibm.png" alt="IBM" class="cert-provider-logo" />
-          <div class="cert-badge">Verified</div>
-        </div>
-      </a>
-      <a href="https://www.udemy.com/certificate/UC-6235febc-c7ba-4341-a231-738ba239c5e3/" target="_blank"
-        data-tooltip="Click to view certificate" class="cert-card glass-card" appReveal [delay]="0">
-        <div class="cert-icon">🤖</div>
-        <div class="cert-body">
-          <div class="cert-title">Agentic AI Systems</div>
-          <div class="cert-sub">LangGraph · CrewAI · MCP</div>
-        </div>
-        <div class="cert-actions">
-          <img src="assets/udemy.png" alt="Udemy" class="cert-provider-logo" />
-          <div class="cert-badge">Verified</div>
-        </div>
-      </a>
-      <a href="https://www.coursera.org/account/accomplishments/verify/MC7MJ16P62AV" target="_blank"
-        data-tooltip="Click to view certificate" class="cert-card glass-card" appReveal [delay]="0">
-        <div class="cert-icon">🔗</div>
-        <div class="cert-body">
-          <div class="cert-title">Agentic AI Systems</div>
-          <div class="cert-sub">LangChain · LangGraph</div>
-        </div>
-        <div class="cert-actions">
-          <img src="assets/ibm.png" alt="IBM" class="cert-provider-logo" />
-          <div class="cert-badge">Verified</div>
-        </div>
-      </a>
-      <a href="https://www.udemy.com/certificate/UC-1e782f4e-0c68-4410-9488-789ec8d922e1/" target="_blank"
-        data-tooltip="Click to view certificate" class="cert-card glass-card" appReveal [delay]="80">
-        <div class="cert-icon">🧬</div>
-        <div class="cert-body">
-          <div class="cert-title">Full Stack Generative & Agentic AI</div>
-          <div class="cert-sub">Python · GenAI · Production Systems</div>
-        </div>
-        <div class="cert-actions">
-          <img src="assets/udemy.png" alt="Udemy" class="cert-provider-logo" />
-          <div class="cert-badge">Verified</div>
-        </div>
-      </a>
-      <a href="https://verify.skilljar.com/c/uqm8e6cqadhn" target="_blank" data-tooltip="Click to view certificate"
-        class="cert-card glass-card" appReveal [delay]="160">
-        <div class="cert-icon">⚡</div>
-        <div class="cert-body">
-          <div class="cert-title">Claude API & AI Foundations</div>
-          <div class="cert-sub">Anthropic · Prompt Engineering</div>
-        </div>
-        <div class="cert-actions">
-          <img src="assets/anthropic.png" alt="Anthropic" class="cert-provider-logo" />
-          <div class="cert-badge">Verified</div>
-        </div>
-      </a>
-      <a href="https://verify.skilljar.com/c/yta8599e8jd2" target="_blank" data-tooltip="Click to view certificate"
-        class="cert-card glass-card" appReveal [delay]="240">
-        <div class="cert-icon">🔌</div>
-        <div class="cert-body">
-          <div class="cert-title">Model Context Protocol (MCP)</div>
-          <div class="cert-sub">Tool Use · Agent Integration</div>
-        </div>
-        <div class="cert-actions">
-          <img src="assets/anthropic.png" alt="Anthropic" class="cert-provider-logo" />
-          <div class="cert-badge">Verified</div>
-        </div>
-      </a>
+
+    <div class="filter-buttons" appReveal>
+      @for (provider of providers; track provider) {
+        <button class="filter-btn" [class.active]="selectedProviders.includes(provider)" (click)="toggleProvider(provider)">{{ provider }}</button>
+      }
     </div>
+
+    <div class="certs-grid-wrapper" [class.expanded]="showAll" [class.has-more]="hasMoreCertificates">
+      <div class="certs-grid">
+        @for (cert of filteredCertificates; track cert.link) {
+        <a [href]="cert.link" target="_blank"
+          data-tooltip="Click to view certificate" class="cert-card glass-card" appReveal [delay]="cert.delay">
+          <div class="cert-icon">{{ cert.icon }}</div>
+          <div class="cert-body">
+            <div class="cert-title">{{ cert.title }}</div>
+            <div class="cert-sub">{{ cert.sub }}</div>
+          </div>
+          <div class="cert-actions">
+            <img [src]="cert.logo" [alt]="cert.alt" class="cert-provider-logo" />
+            <div class="cert-badge">Verified</div>
+          </div>
+        </a>
+        }
+      </div>
+    </div>
+
+    @if (hasMoreCertificates) {
+      <div class="show-more-container" appReveal>
+        <button class="show-more-btn" [class.expanded-btn]="showAll" (click)="toggleShowAll()">
+          <span>{{ showAll ? 'Show Less' : 'Show More (' + (filteredCertificates.length - 6) + ')' }}</span>
+          <span class="icon" [style.transform]="showAll ? 'rotate(180deg)' : 'rotate(0)'">↓</span>
+        </button>
+      </div>
+    }
   </div>
 </section>
