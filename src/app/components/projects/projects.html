@@ -1,64 +1,34 @@
 <section id="projects">
   <div class="container">
-    <div class="section-label" appReveal>03 — Projects</div>
+    <div class="section-label" appReveal>0{{projects.length}} — Projects</div>
     <h2 class="section-heading" appReveal>What I've <em>Built</em></h2>
     <div class="projects-grid">
-      <div class="project-card glass-card" appReveal [delay]="0">
-        <div class="project-header">
-          <div class="project-num">01</div>
-          <a href="https://github.com/mahipalSingh08/simple-chat-cli" target="_blank" class="icon-link">⬡ GitHub</a>
+      @for (project of projects; track project.title) {
+        <div class="project-card glass-card" [class.project-inprogress]="project.inProgress" appReveal [delay]="project.delay">
+          <div class="project-header">
+            <div class="project-num">{{ project.num }}</div>
+            @if (project.inProgress) {
+              <span class="in-progress-badge">🚧 In Progress</span>
+            } @else {
+              <a [href]="project.githubLink" target="_blank" class="icon-link">⬡ GitHub</a>
+            }
+          </div>
+          <h3 class="project-title">{{ project.title }}</h3>
+          <p class="project-desc">{{ project.desc }}</p>
+          <div class="project-tech">
+            @for (tech of project.tech; track tech) {
+              <span class="tech-badge">{{ tech }}</span>
+            }
+          </div>
+          <div class="project-footer">
+            @if (project.inProgress) {
+              <span class="btn btn-sm btn-disabled">Coming Soon</span>
+            } @else {
+              <a [href]="project.githubLink" target="_blank" class="btn btn-sm">View on GitHub →</a>
+            }
+          </div>
         </div>
-        <h3 class="project-title">AI Chat CLI</h3>
-        <p class="project-desc">A command-line AI chat application powered by LLMs with real-time streaming responses.
-          Modular architecture designed for future extension into multi-turn and multi-model conversations.</p>
-        <div class="project-tech">
-          <span class="tech-badge">Python</span>
-          <span class="tech-badge">OpenAI API</span>
-          <span class="tech-badge">Streaming</span>
-          <span class="tech-badge">CLI</span>
-        </div>
-        <div class="project-footer">
-          <a href="https://github.com/mahipalSingh08/simple-chat-cli" target="_blank" class="btn btn-sm">View on GitHub →</a>
-        </div>
-      </div>
-      <div class="project-card glass-card" appReveal [delay]="200">
-        <div class="project-header">
-          <div class="project-num">02</div>
-          <a href="https://github.com/mahipalSingh08/angular-openai-chat" target="_blank" class="icon-link">⬡ GitHub</a>
-        </div>
-        <h3 class="project-title">AI Chat Application</h3>
-        <p class="project-desc">Designed and developed a modern AI chatbot FullStack application using Angular, FastAPI,
-          and OpenAI integration, focusing on real-time communication, scalable backend APIs, and an intuitive
-          user-friendly interface.</p>
-        <div class="project-tech">
-          <span class="tech-badge">Angular</span>
-          <span class="tech-badge">Python</span>
-          <span class="tech-badge">FastAPI</span>
-          <span class="tech-badge">OpenAI</span>
-        </div>
-        <div class="project-footer">
-          <a href="https://github.com/mahipalSingh08/angular-openai-chat" target="_blank" class="btn btn-sm">View on GitHub →</a>
-        </div>
-      </div>
-      <div class="project-card glass-card project-inprogress" appReveal [delay]="100">
-        <div class="project-header">
-          <div class="project-num">03</div>
-          <span class="in-progress-badge">🚧 In Progress</span>
-        </div>
-        <h3 class="project-title">RAG System</h3>
-        <p class="project-desc">A full Retrieval-Augmented Generation pipeline — from document ingestion and chunk
-          indexing to embedding-based similarity search and context-aware LLM response generation.</p>
-        <div class="project-tech">
-          <span class="tech-badge">Python</span>
-          <span class="tech-badge">LangChain</span>
-          <span class="tech-badge">FAISS</span>
-          <span class="tech-badge">Embeddings</span>
-          <span class="tech-badge">OpenAI</span>
-        </div>
-        <div class="project-footer">
-          <span class="btn btn-sm btn-disabled">Coming Soon</span>
-        </div>
-      </div>
+      }
     </div>
   </div>
 </section>
