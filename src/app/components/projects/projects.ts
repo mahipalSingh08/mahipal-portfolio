@@ -32,10 +32,19 @@ export class ProjectsComponent {
       num: '03',
       title: 'RAG System',
       desc: 'A full Retrieval-Augmented Generation pipeline — from document ingestion and chunk indexing to embedding-based similarity search and context-aware LLM response generation.',
-      tech: ['Python', 'LangChain', 'FAISS', 'Embeddings', 'OpenAI'],
+      tech: ['Python', 'Angular', 'Qdrant', 'Embeddings', 'OpenAI'],
+      githubLink: 'https://github.com/mahipalSingh08/rag-document-chat',
+      inProgress: false,
+      delay: 100
+    },
+    {
+      num: '04',
+      title: 'AI Resume Analyzer',
+      desc: 'Built an AI-driven resume evaluation tool that analyzes resumes against job descriptions — generating an ATS compatibility score, identifying keyword and skill gaps, and providing actionable rewrite suggestions to improve match quality.',
+      tech: ['Python', 'OpenAI', 'Angular', 'FastAPI'],
       githubLink: '',
       inProgress: true,
-      delay: 100
+      delay: 200
     }
   ];
 }
