@@ -54,6 +54,15 @@ export class ProjectsComponent {
       githubLink: '',
       inProgress: true,
       delay: 0
+    },
+    {
+      num: '06',
+      title: 'GitHub Repo Explainer',
+      desc: 'Built an AI-powered codebase analysis tool that reads a GitHub repository, understands its structure and code, and generates clear explanations of the architecture, key components, and usage.',
+      tech: ['Python', 'OpenAI', 'FastAPI', 'Angular'],
+      githubLink: '',
+      inProgress: true,
+      delay: 100
     }
   ];
 }
