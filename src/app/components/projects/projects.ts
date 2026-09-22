@@ -42,8 +42,8 @@ export class ProjectsComponent {
       title: 'AI Resume Analyzer',
       desc: 'Built an AI-driven resume evaluation tool that analyzes resumes against job descriptions — generating an ATS compatibility score, identifying keyword and skill gaps, and providing actionable rewrite suggestions to improve match quality.',
       tech: ['Python', 'OpenAI', 'Angular', 'FastAPI'],
-      githubLink: '',
-      inProgress: true,
+      githubLink: 'https://github.com/mahipalSingh08/resume-analyzer/',
+      inProgress: false,
       delay: 200
     }
   ];
