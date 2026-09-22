@@ -45,6 +45,24 @@ export class ProjectsComponent {
       githubLink: 'https://github.com/mahipalSingh08/resume-analyzer/',
       inProgress: false,
       delay: 200
+    },
+    {
+      num: '05',
+      title: 'Multi-Tool Agent',
+      desc: 'Built an AI-powered tool-using agent that interprets user queries and autonomously selects the right tool — web search, calculator, or weather — to provide accurate and relevant responses.',
+      tech: ['Python', 'OpenAI', 'FastAPI', 'Angular'],
+      githubLink: '',
+      inProgress: true,
+      delay: 0
+    },
+    {
+      num: '06',
+      title: 'GitHub Repo Explainer',
+      desc: 'Built an AI-powered codebase analysis tool that reads a GitHub repository, understands its structure and code, and generates clear explanations of the architecture, key components, and usage.',
+      tech: ['Python', 'OpenAI', 'FastAPI', 'Angular'],
+      githubLink: '',
+      inProgress: true,
+      delay: 100
     }
   ];
 }
