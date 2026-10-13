@@ -51,8 +51,8 @@ export class ProjectsComponent {
       title: 'Multi-Tool Agent',
       desc: 'Built an AI-powered tool-using agent that interprets user queries and autonomously selects the right tool — web search, calculator, or weather — to provide accurate and relevant responses.',
       tech: ['Python', 'OpenAI', 'FastAPI', 'Angular'],
-      githubLink: '',
-      inProgress: true,
+      githubLink: 'https://github.com/mahipalSingh08/multi-tool-agent',
+      inProgress: false,
       delay: 0
     },
     {
